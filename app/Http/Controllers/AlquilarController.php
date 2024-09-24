@@ -21,6 +21,16 @@ class AlquilarController extends Controller
         return view('alquilar.index', compact('Alquilar', 'Bicicletas', 'Regionales'));
     }
 
+    public function mostrarBicicletas($region)
+    {
+        // Supongamos que tienes una relación entre Regional y Bicicleta
+        // Busca las bicicletas que pertenecen a la región
+        $bicicletas = Bicicleta::where('region_id', $region)->get();
+
+        // Retorna la vista con las bicicletas filtradas
+        return view('bicicletas.index', compact('bicicletas', 'region'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

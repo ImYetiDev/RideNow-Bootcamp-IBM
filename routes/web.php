@@ -81,3 +81,6 @@ Route::fallback(function () {
 
 // Ruta para cerrar sesión
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Ruta para mostrar las bicicletas disponibles en una región
+route::get('/alquilar/{region}', [AlquilarController::class, 'mostrarBicicletas'])->name('Alquilar.show');

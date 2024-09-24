@@ -15,9 +15,16 @@ class BicicletasController extends Controller{
         return view('bicicleta.index', compact('bicicleta'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function mostrarBicicletas($region)
+    {
+        // Supongamos que tienes una relación entre Regional y Bicicleta
+        // Busca las bicicletas que pertenecen a la región
+        $bicicletas = Bicicleta::where('region_id', $region)->get();
+
+        // Retorna la vista con las bicicletas filtradas
+        return view('bicicletas.index', compact('bicicletas', 'region'));
+    }
+
     public function create()
     {
         $bicicleta = Bicicleta::all();
