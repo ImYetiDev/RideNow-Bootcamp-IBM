@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\ZonasComunController;
 use App\Http\Controllers\BloqueController;
 use App\Http\Controllers\EventoController;
@@ -13,71 +14,63 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
+// Grupo de rutas que requieren autenticación
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('/index', function () {
-        return view('index');
-    })->name('index');
-    // Route::resource('Bloque', BloqueController::class);
     Route::resource('Evento', EventoController::class);
-    // Route::resource('Paquete', PaqueteController::class);
+    Route::resource('Reserva', ReservaController::class);
+    Route::resource('Residente', ResidenteController::class);
+    Route::resource('Usuario', UsuarioController::class);
+    
+    Route::get('/eventos/{id}/participar', [EventoController::class, 'participar'])->name('eventos.participar');
+    Route::get('/eventos/{id}', [EventoController::class, 'show'])->name('eventos.show');
 });
 
-
+// Rutas para el admin
 Route::middleware('auth:admin')->group(function () {
-    Route::get('/eventos/crear', 'EventoController@create');
-    Route::post('/eventos', 'EventoController@store');
+    Route::get('/eventos/crear', [EventoController::class, 'create']);
+    Route::post('/eventos', [EventoController::class, 'store']);
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/eventos', 'EventoController@index');
-    Route::post('/eventos/{evento}/participar', 'EventoController@participar');
-});
-
-
-
-
-
-
-
-
+// Ruta para la vista principal
 Route::get('/', function () {
-    if(Auth::check()){
-        return redirect('residentes');}
-    return view('login');
+    if (Auth::check()) {
+        return view('index'); // Mostrar vista principal si está autenticado
+    }
+    return redirect()->route('login'); // Redirigir al login si no está autenticado
 });
 
+// Ruta para el login
 Route::get('/login', function () {
-    if(Auth::check()){
-        return redirect('residentes');}
+    if (Auth::check()) {
+        return redirect('Residente'); // Redirigir si ya está autenticado
+    }
     return view('login');
 })->name('login');
 
-
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('residentes');
-})->name('logout');
-
-Route::get('/register', function(){
+// Ruta para el registro de nuevos usuarios
+Route::get('/register', function () {
     return view('register');
-});
+})->name('register');
 
+// Ruta para manejar el proceso de registro
 Route::post('/register', [LoginController::class, 'register']);
+
+// Ruta para manejar el proceso de autenticación
 Route::post('/check', [LoginController::class, 'check']);
 
+// Ruta de fallback para manejar URLs no encontradas
+Route::fallback(function () {
+    if (Auth::check()) {
+        return redirect('/');
+    }
+    return redirect()->route('login');
+});
 
-
+// Ruta para cerrar sesión
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

@@ -47,21 +47,22 @@
             cambiarIcono('eventoIcon');
             cambiarTexto('eventoText');
         </script>
-        <h1>Eventos Disponibles</h1>
+        <h1>Detalles del Evento</h1>
 
-        @foreach($eventos as $evento)
-        <div>
-            <h2>{{ $evento->nombre }}</h2>
-            <p>{{ $evento->descripcion }}</p>
-            <p>Fecha: {{ $evento->fecha }}</p>
-            <p>Ubicación: {{ $evento->ubicacion }}</p>
-            <form action="/eventos/{{ $evento->id }}/participar" method="GET">
-                @csrf
-                <button type="submit">Registrarse en el evento</button>
-            </form>
-        </div>
-        @endforeach
-
+        <h2>{{ $evento->nombre }}</h2>
+        <p>{{ $evento->descripcion }}</p>
+        <p>Fecha: {{ $evento->fecha }}</p>
+        <p>Ubicación: {{ $evento->ubicacion }}</p>
+        
+        <h3>Participantes</h3>
+        <ul>
+            @forelse($participantes as $participante)
+                <li>{{ $participante->nombre }}</li>
+            @empty
+                <li>No hay participantes registrados en este evento</li>
+            @endforelse
+        </ul>
+        
 
 
         @include('footer')

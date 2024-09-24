@@ -16,16 +16,8 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="" class="nav-item nav-link"><i class="bi bi-house"></i> Bloques</a>
+                    <a href="" class="nav-item nav-link"><i class="bi bi-house"></i>Alquilar bicicleta</a>
                     <a href="" class="nav-item nav-link"><i class="bi bi-calendar-event"></i>Eventos</a>
-                    <a href="" class="nav-item nav-link"><i class="bi bi-box-seam"></i>Paquetes</a>
-                    <a href="" class="nav-item nav-link"><i class="bi bi-bar-chart-steps"></i>Permisos</a>
-                    <a href="" class="nav-item nav-link"><i class="bi bi-book"></i>Reservas</a>
-                    <a href="" class="nav-item nav-link"><i class="bi bi-person-circle"></i>Residentes</a>
-                    <a href="" class="nav-item nav-link"><i class="bi bi-shop-window"></i>Tipos Viviendas</a>
-                    <a href="" class="nav-item nav-link"><i class="bi bi-people-fill"></i>Usuarios</a>
-                    <a href="" class="nav-item nav-link"><i class="bi bi-building"></i>Viviendas</a>
-                    <a href="" class="nav-item nav-link"><i class="bi bi-shop"></i>Zonas Comunes</a>
                 </div>
             </nav>
         </div>

@@ -6,81 +6,58 @@
     @include('sidebar')
 
 
-    @section('tabla', 'Crear Evento')
+    <!-- @section('tabla', 'Crear Evento') -->
     @include('navbar')
 
     @include('cards')
 
     <script>
-            function cambiarFondo(selected) {
-                var selected = document.getElementById(selected);
+        function cambiarFondo(selected) {
+            var selected = document.getElementById(selected);
 
-                // Cambiar el fondo del elemento
-                selected.classList.remove('bg-secondary');
-                selected.classList.add('bg-success');
-            }
+            // Cambiar el fondo del elemento
+            selected.classList.remove('bg-secondary');
+            selected.classList.add('bg-success');
+        }
 
-            function cambiarIcono(icon) {
-                var icon = document.getElementById(icon);
+        function cambiarIcono(icon) {
+            var icon = document.getElementById(icon);
 
-                // Cambiar el icono de color
-                icon.classList.remove('text-success');
-                icon.classList.add('text-secondary');
-            }
+            // Cambiar el icono de color
+            icon.classList.remove('text-success');
+            icon.classList.add('text-secondary');
+        }
 
-            function cambiarTexto(texto) {
-                // Obtener el texto y cambiar su color
-                var texto = document.getElementById(texto);
-                texto.classList.add('text-dark');
-            }
+        function cambiarTexto(texto) {
+            // Obtener el texto y cambiar su color
+            var texto = document.getElementById(texto);
+            texto.classList.add('text-dark');
+        }
 
-            cambiarFondo('evento');
-            cambiarIcono('eventoIcon');
-            cambiarTexto('eventoText');
-        </script>
+        cambiarFondo('evento');
+        cambiarIcono('eventoIcon');
+        cambiarTexto('eventoText');
+    </script>
 
-    <!-- Recent Sales Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-secondary text-center rounded p-4">
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary rounded h-100 p-4">
-                    <h6 class="mb-4">Formulario de Eventos</h6>
-                    <form action="{{ url('Evento')}}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="nombre_evento" class="form-label">Nombre del Evento</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
+    <h1>Crear un Evento</h1>
 
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
-                        </div>
+    <form action="/eventos" method="POST">
+        @csrf
+        <label for="nombre">Nombre del Evento</label>
+        <input type="text" name="nombre" id="nombre" required>
 
-                        <div class="mb-3">
-                            <label for="fecha" class="form-label">Fecha</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" required>
-                        </div>
+        <label for="descripcion">Descripción</label>
+        <textarea name="descripcion" id="descripcion" required></textarea>
 
-                        <div class="mb-3">
-                            <label for="hora" class="form-label">Hora</label>
-                            <input type="time" class="form-control" id="hora" name="hora" required>
-                        </div>
+        <label for="fecha">Fecha</label>
+        <input type="date" name="fecha" id="fecha" required>
 
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <input type="number" class="form-control" id="estado" name="estado" required>
-                        </div>
+        <label for="ubicacion">Ubicación</label>
+        <input type="text" name="ubicacion" id="ubicacion" required>
 
-                        <button type="submit" class="btn btn-success">Crear Evento</button>
-                    </form>
+        <button type="submit">Crear Evento</button>
+    </form>
 
-
-
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 

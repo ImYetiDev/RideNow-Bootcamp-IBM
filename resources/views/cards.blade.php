@@ -2,7 +2,7 @@
  
  <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
-                    <div class="col-sm-6 col-xl-3" onclick >
+                    <div class="col-sm-6 col-xl-3" >
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4"
                         id="bloque">
                         <i class="bi bi-bicycle fa-3x text-success"
@@ -15,7 +15,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-xl-3" onclick >
+                    <div class="col-sm-6 col-xl-3" onclick="location.href='{{ route('Evento.index') }} '" >
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4"
                         id="bloque">
                         <i class="bi bi-bicycle fa-3x text-success"

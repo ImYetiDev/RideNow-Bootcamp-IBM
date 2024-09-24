@@ -29,15 +29,31 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        // Intentar iniciar sesión utilizando el campo 'email_propietario' en lugar de 'email'
+        // Intentar iniciar sesión
         if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
-            // Si las credenciales son correctas, redirige a la página de inicio
+            // Guardar el nombre del usuario en la sesión
+            $user = Auth::user();
+            $request->session()->put('nombre', $user->nombre);
+
+            // Redirige a la página de inicio
             return redirect()->intended('index');
         }
 
-        // Si las credenciales son incorrectas, redirigir de vuelta al login con un error
+        // Si las credenciales son incorrectas
         return back()->withErrors([
             'email' => 'Las credenciales no coinciden con nuestros registros.',
         ])->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        // Cerrar sesión
+        Auth::logout();
+
+        // Eliminar el nombre del usuario de la sesión
+        $request->session()->forget('nombre');
+
+        // Redirigir al login u otra página
+        return redirect('/login')->with('message', 'Has cerrado sesión correctamente.');
     }
 }

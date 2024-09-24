@@ -16,7 +16,7 @@ class EventoController extends Controller
 
     public function create()
     {
-        return view('eventos.create'); // Vista para crear un evento
+        return view('Eventos.create'); // Vista para crear un evento
     }
 
     public function store(Request $request)
@@ -39,25 +39,36 @@ class EventoController extends Controller
         return redirect('/eventos')->with('success', 'Evento creado correctamente');
     }
 
-    public function participar(Evento $evento)
+    public function participar($id)
     {
-        // Verificar si el usuario ya está registrado en el evento
-        if (Participacion::where('evento_id', $evento->id)->where('usuario_id', auth()->id())->exists()) {
-            return redirect('/eventos')->with('error', 'Ya estás registrado en este evento');
+        // Aquí obtienes el evento por su ID, asegúrate de que exista
+        $evento = Evento::find($id);
+
+        if (!$evento) {
+            return redirect()->route('eventos.index')->with('error', 'Evento no encontrado.');
         }
 
-        Participacion::create([
-            'evento_id' => $evento->id,
-            'usuario_id' => auth()->id(),
-        ]);
-
-        return redirect('/eventos')->with('success', 'Te has registrado en el evento');
+        // Aquí pones la lógica para participar en el evento
+        // Puedes pasar el evento a la vista, por ejemplo:
+        return view('Eventos.participar', compact('evento'));
     }
 
     // Mostrar los detalles de un evento específico
-    public function show(Evento $evento)
+    public function show($id)
     {
-        $participantes = $evento->participantes; // Obtener todos los participantes del evento
+        // Encuentra el evento por su ID
+        $evento = Evento::find($id);
+    
+        // Si el evento no se encuentra, redirige con un mensaje de error
+        if (!$evento) {
+            return redirect('/eventos')->with('error', 'Evento no encontrado');
+        }
+    
+        // Obtén los participantes inscritos en el evento
+        $participantes = $evento->participantes;
+    
+        // Retorna la vista 'eventos.show' con los datos del evento y los participantes
         return view('eventos.show', compact('evento', 'participantes'));
     }
+    
 }
