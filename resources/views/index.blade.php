@@ -18,6 +18,7 @@
 
         @if(session('nombre'))
         <p>Bienvenido, {{ session('nombre') }}!</p>
+        <p>Tipo de usuario, {{ session('tipo_usuario') }}!</p>
         @endif
 
 

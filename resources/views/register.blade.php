@@ -60,6 +60,16 @@
                             <label for="userType">Tipo de Usuario</label>
                         </div>
 
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="userType" name="userType" required>
+                                <option value="" disabled selected>Seleccione el estrato de su equipo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="2">3</option>
+                            </select>
+                            <label for="userType">Tipo de Usuario</label>
+                        </div>
+
                         <div class="form-floating mb-4">
                             <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña" name="password" required>
                             <label for="floatingPassword">Contraseña</label>

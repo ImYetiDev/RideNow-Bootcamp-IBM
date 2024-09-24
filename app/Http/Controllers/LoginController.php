@@ -34,6 +34,7 @@ class LoginController extends Controller
             // Guardar el nombre del usuario en la sesión
             $user = Auth::user();
             $request->session()->put('nombre', $user->nombre);
+            $request->session()->put('tipo_usuario', $user->tipo_usuario);
 
             // Redirige a la página de inicio
             return redirect()->intended('index');
