@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Alquilar;
+use App\Models\Bicicleta;
+use App\Models\Regionales;
 
 class AlquilarController extends Controller
 {
@@ -13,7 +15,10 @@ class AlquilarController extends Controller
     public function index()
     {
         $alquilar = Alquilar::all(); // Mostrar todos los eventos disponibles
-        return view('alquilar.index', compact('alquilar'));
+        
+        $Bicicletas = Bicicleta::all();
+        $Regionales = Regionales::all();
+        return view('alquilar.index', compact('alquilar', 'Bicicletas', 'Regionales'));
     }
 
     /**
