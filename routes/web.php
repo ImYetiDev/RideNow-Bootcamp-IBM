@@ -14,6 +14,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,16 +27,26 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('Reserva', ReservaController::class);
     Route::resource('Residente', ResidenteController::class);
     Route::resource('Usuario', UsuarioController::class);
-    
+
     Route::get('/eventos/{id}/participar', [EventoController::class, 'participar'])->name('eventos.participar');
     Route::get('/eventos/{id}', [EventoController::class, 'show'])->name('eventos.show');
+    Route::get('/eventos/{evento}/inscribirse', [EventoController::class, 'inscribirse'])->name('eventos.inscribirse');
+
+
+    // Ruta para mostrar el formulario de creación de eventos
+    Route::get('/eventos/crear', [EventoController::class, 'create'])->name('eventos.create');
+
+    // Ruta para guardar el evento en la base de datos (formulario de creación)
+    Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
 });
 
-// Rutas para el admin
-Route::middleware('auth:admin')->group(function () {
-    Route::get('/eventos/crear', [EventoController::class, 'create']);
-    Route::post('/eventos', [EventoController::class, 'store']);
-});
+
+
+// // Rutas para el admin
+// Route::middleware('auth:admin')->group(function () {
+//     Route::get('/eventos/create', [EventoController::class, 'create']);
+//     Route::post('/eventos', [EventoController::class, 'store']);
+// });
 
 // Ruta para la vista principal
 Route::get('/', function () {

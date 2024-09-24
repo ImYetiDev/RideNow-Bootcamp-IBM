@@ -13,7 +13,8 @@ class CreateUsuariosTable extends Migration
             $table->string('nombre', 100);
             $table->string('email', 100)->unique();
             $table->string('password');
-            $table->enum('tipo_usuario', ['Funcionario', 'Estudiante', 'Administrador']);
+            $table->integer('tipo_usuario')->unsigned();
+            $table->string('estrato', 1)->nullable();
             $table->boolean('estado')->default(true); // Eliminación lógica
             $table->timestamps();
         });

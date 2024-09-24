@@ -16,10 +16,19 @@ class LoginController extends Controller
         // Hashear la contraseña antes de guardarla
         $usuario['password'] = Hash::make($datos->get('password'));
 
+        // Obtener el tipo de usuario del formulario
+        $usuario['tipo_usuario'] = (int)$datos->get('tipo_usuario'); // Tipo de usuario
+
+        // Obtener el estrato socioeconómico
+        $usuario['estrato'] = (int)$datos->get('estrato'); // Estrato socioeconómico
+
+        // Crear el usuario en la base de datos
         Usuario::create($usuario);
 
         return view('./login');
     }
+
+
 
     public function check(Request $request)
     {
@@ -33,8 +42,27 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
             // Guardar el nombre del usuario en la sesión
             $user = Auth::user();
-            $request->session()->put('nombre', $user->nombre);
-            $request->session()->put('tipo_usuario', $user->tipo_usuario);
+            $nombreInicialMayuscula = ucfirst($user->nombre);
+            $request->session()->put('nombre', $nombreInicialMayuscula);
+            $tipoUsuarioInicialMayuscula = ucfirst($user->tipo_usuario);
+            $request->session()->put('tipo_usuario', $tipoUsuarioInicialMayuscula);
+
+            switch (session('tipo_usuario')) {
+                case 1:
+                    $request->session()->put('tipo_usuario_string', 'Aprendiz');
+                    break;
+                case 2:
+                    $request->session()->put('tipo_usuario_string', 'Funcionario');
+                    break;
+                case 3:
+                    $request->session()->put('tipo_usuario_string', 'Administrador');
+                    break;
+                default:
+                    $request->session()->put('tipo_usuario_string', 'Desconocido'); // Opcional para manejar casos no esperados
+            }
+
+
+
 
             // Redirige a la página de inicio
             return redirect()->intended('index');

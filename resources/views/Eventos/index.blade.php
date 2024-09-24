@@ -20,6 +20,31 @@
 
         @include('cards')
 
+        <div class="container-fluid position-relative d-block p-4">
+            <h1>Eventos Disponibles</h1>
+
+            <!-- Botón para crear un nuevo evento, solo visible para administradores -->
+            @if (auth()->user() && auth()->user()->tipo_usuario ==3)
+            <a href="{{ route('eventos.create') }}" class="btn btn-success mb-3">Crear Nuevo Evento</a>
+            @endif
+
+            @forelse($eventos as $evento)
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3 class="card-title">{{ $evento->nombre }}</h3>
+                    <p class="card-text">{{ $evento->descripcion }}</p>
+                    <p class="card-text">Fecha: {{ $evento->fecha }}</p>
+                    <p class="card-text">Ubicación: {{ $evento->ubicacion }}</p>
+                    <a href="{{ route('eventos.show', $evento->id) }}" class="btn btn-primary">Ver Detalles</a>
+                </div>
+            </div>
+            @empty
+            <div class="alert alert-info">
+                No hay eventos disponibles en este momento.
+            </div>
+            @endforelse
+        </div>
+
         <script>
             function cambiarFondo(selected) {
                 var selected = document.getElementById(selected);
@@ -47,20 +72,7 @@
             cambiarIcono('eventoIcon');
             cambiarTexto('eventoText');
         </script>
-        <h1>Eventos Disponibles</h1>
 
-        @foreach($eventos as $evento)
-        <div>
-            <h2>{{ $evento->nombre }}</h2>
-            <p>{{ $evento->descripcion }}</p>
-            <p>Fecha: {{ $evento->fecha }}</p>
-            <p>Ubicación: {{ $evento->ubicacion }}</p>
-            <form action="/eventos/{{ $evento->id }}/participar" method="GET">
-                @csrf
-                <button type="submit">Registrarse en el evento</button>
-            </form>
-        </div>
-        @endforeach
 
 
 

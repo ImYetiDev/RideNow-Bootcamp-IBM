@@ -41,21 +41,29 @@
 
     <h1>Crear un Evento</h1>
 
-    <form action="/eventos" method="POST">
+    <form action="{{ route('eventos.store') }}" method="POST">
         @csrf
-        <label for="nombre">Nombre del Evento</label>
-        <input type="text" name="nombre" id="nombre" required>
+        <div class="form-group">
+            <label for="nombre">Nombre del Evento</label>
+            <input type="text" name="nombre" id="nombre" class="form-control" required>
+        </div>
 
-        <label for="descripcion">Descripción</label>
-        <textarea name="descripcion" id="descripcion" required></textarea>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea name="descripcion" id="descripcion" class="form-control" required></textarea>
+        </div>
 
-        <label for="fecha">Fecha</label>
-        <input type="date" name="fecha" id="fecha" required>
+        <div class="form-group">
+            <label for="fecha">Fecha</label>
+            <input type="date" name="fecha" id="fecha" class="form-control" required>
+        </div>
 
-        <label for="ubicacion">Ubicación</label>
-        <input type="text" name="ubicacion" id="ubicacion" required>
+        <div class="form-group">
+            <label for="ubicacion">Ubicación</label>
+            <input type="text" name="ubicacion" id="ubicacion" class="form-control" required>
+        </div>
 
-        <button type="submit">Crear Evento</button>
+        <button type="submit" class="btn btn-success">Crear Evento</button>
     </form>
 
 

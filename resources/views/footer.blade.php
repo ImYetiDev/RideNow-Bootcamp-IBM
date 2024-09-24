@@ -1,9 +1,9 @@
 <!-- Footer Start -->
-<div class="container-fluid pt-4 px-4">
+<div class="container-fluid pt-4 px-4 pb-0">
                 <div class="bg-secondary rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#" class="text-success">Pagina hecha por</a> David Uribe y Diego
+                            &copy; <a href="#" class="text-success">Desarrollado por</a> David Uribe y Diego Anacona
                         </div>
                         
                     </div>

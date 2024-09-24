@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Register RideNow</title>
@@ -13,8 +14,8 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
-    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -26,6 +27,7 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
@@ -49,32 +51,34 @@
                             <input type="email" class="form-control" id="floatingEmail" placeholder="Email" name="email" required>
                             <label for="floatingEmail">Correo Electrónico</label>
                         </div>
-                        
-                        <div class="form-floating mb-3">
-                            <select class="form-select" id="userType" name="userType" required>
-                                <option value="" disabled selected>Seleccione su tipo de usuario</option>
-                                <option value="funcionario">Funcionario</option>
-                                <option value="estudiante">Estudiante</option>
-                                <option value="administrador">Administrador</option>
-                            </select>
-                            <label for="userType">Tipo de Usuario</label>
-                        </div>
+
+                        <select class="form-select" id="userType" name="tipo_usuario" required>
+                            <option value="" disabled selected>Seleccione su tipo de usuario</option>
+                            <option value="1">Estudiante</option>
+                            <option value="2">Funcionario</option>
+                            <option value="3">Administrador</option>
+                        </select>
+                        <label for="userType">Tipo de Usuario</label>
 
                         <div class="form-floating mb-3">
-                            <select class="form-select" id="userType" name="userType" required>
-                                <option value="" disabled selected>Seleccione el estrato de su equipo</option>
+                            <select class="form-select" id="userStrat" name="estrato" required>
+                                <option value="" disabled selected>Seleccione estrato</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
-                                <option value="2">3</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
                             </select>
-                            <label for="userType">Tipo de Usuario</label>
+                            <label for="estrato">Estrato Socioeconómico</label>
                         </div>
+
 
                         <div class="form-floating mb-4">
                             <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña" name="password" required>
                             <label for="floatingPassword">Contraseña</label>
                         </div>
-                       
+
                         <button type="submit" class="btn btn-success py-3 w-100 mb-4">Registrarse</button>
                         <p class="text-center mb-0">¿Ya tienes una cuenta? <a href="\login">Iniciar sesión</a></p>
                     </form>
@@ -96,4 +100,5 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
+
 </html>
