@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/eventos/{evento}/inscribirse', [EventoController::class, 'inscribirse'])->name('eventos.inscribirse');
 
 
+    route::get('/alquilar/{region_id}', [AlquilarController::class, 'mostrarBicicletas'])->name('alquilar.show');
     // Ruta para mostrar el formulario de creación de eventos
     // Route::post('/create', [EventoController::class, 'create'])->name('eventos.create');
 
@@ -81,6 +82,3 @@ Route::fallback(function () {
 
 // Ruta para cerrar sesión
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-// Ruta para mostrar las bicicletas disponibles en una región
-route::get('/alquilar/{region}', [AlquilarController::class, 'mostrarBicicletas'])->name('Alquilar.show');

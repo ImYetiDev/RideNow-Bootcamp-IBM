@@ -15,21 +15,31 @@ class AlquilarController extends Controller
     public function index()
     {
         $Alquilar = Alquilar::all(); // Mostrar todos los eventos disponibles
-        
+
         $Bicicletas = Bicicleta::all();
         $Regionales = Regionales::all();
         return view('alquilar.index', compact('Alquilar', 'Bicicletas', 'Regionales'));
     }
 
-    public function mostrarBicicletas($region)
+    public function mostrarBicicletas($region_id)
     {
-        // Supongamos que tienes una relación entre Regional y Bicicleta
-        // Busca las bicicletas que pertenecen a la región
-        $bicicletas = Bicicleta::where('region_id', $region)->get();
+        // Obtener la región seleccionada
+        $region = Regionales::find($region_id);
 
-        // Retorna la vista con las bicicletas filtradas
-        return view('bicicletas.index', compact('bicicletas', 'region'));
+        // Verificar si la región existe
+        if (!$region) {
+            return abort(404, 'Región no encontrada');
+        }
+
+        // Obtener las bicicletas disponibles en esa región
+        $bicicletas = Bicicleta::where('region_id', $region_id)->get();
+
+        // Retornar la vista con las bicicletas y la región
+        return view('alquilar.bicicletas', compact('bicicletas', 'region'));
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -63,10 +73,7 @@ class AlquilarController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.

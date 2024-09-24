@@ -26,7 +26,9 @@
                             <h3 class="text-success">{{$dato->nombre}}</h3>
                         </div>
                         <div class="card-body">
-                            <a href="{{ route('Alquilar.show', $dato->id) }}" class="btn btn-primary">Alquilar</a>
+                            <a href="{{ route('alquilar.show', $dato->id) }}">Ver bicicletas</a>
+
+
                         </div>
                     </div>
                 </div>
