@@ -1,14 +1,9 @@
 <?php
 
-use App\Http\Controllers\ZonasComunController;
-use App\Http\Controllers\BloqueController;
+use App\Http\Controllers\AlquilarController;
 use App\Http\Controllers\EventoController;
-use App\Http\Controllers\PaqueteController;
-use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ResidenteController;
-use App\Http\Controllers\TiposViviendaController;
-use App\Http\Controllers\ViviendaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('Reserva', ReservaController::class);
     Route::resource('Residente', ResidenteController::class);
     Route::resource('Usuario', UsuarioController::class);
+    Route::resource('Alquilar', AlquilarController::class);
 
     Route::get('/eventos/{id}/participar', [EventoController::class, 'participar'])->name('eventos.participar');
     Route::get('/eventos/{id}', [EventoController::class, 'show'])->name('eventos.show');
@@ -34,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Ruta para mostrar el formulario de creación de eventos
-    Route::get('/eventos/create', [EventoController::class, 'create'])->name('eventos.create');
+    // Route::post('/create', [EventoController::class, 'create'])->name('eventos.create');
 
     // Ruta para guardar el evento en la base de datos (formulario de creación)
     Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');

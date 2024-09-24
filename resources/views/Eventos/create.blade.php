@@ -38,41 +38,43 @@
         cambiarIcono('eventoIcon');
         cambiarTexto('eventoText');
     </script>
+    <div class="container-fluid position-relative d-block p-4">
+        <h1>Crear un Evento</h1>
 
-    <h1>Crear un Evento</h1>
-
-    <form action="{{ route('eventos.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="nombre">Nombre del Evento</label>
-            <input type="text" name="nombre" id="nombre" class="form-control" required>
+        <div class="w-25">
+            <form action="{{ route('eventos.store') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="nombre">Nombre del Evento</label>
+                    <input type="text" name="nombre" id="nombre" class="form-control bg-color:" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea name="descripcion" id="descripcion" class="form-control" required></textarea>
+                </div>
+    
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" name="fecha" id="fecha" class="form-control" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="ubicacion">Ubicación</label>
+                    <input type="text" name="ubicacion" id="ubicacion" class="form-control" required>
+                </div>
+    
+                <button type="submit" class="btn btn-success">Crear Evento</button>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="descripcion">Descripción</label>
-            <textarea name="descripcion" id="descripcion" class="form-control" required></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="fecha">Fecha</label>
-            <input type="date" name="fecha" id="fecha" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-            <label for="ubicacion">Ubicación</label>
-            <input type="text" name="ubicacion" id="ubicacion" class="form-control" required>
-        </div>
-
-        <button type="submit" class="btn btn-success">Crear Evento</button>
-    </form>
+    </div>
 
 
 
 
 
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
     <!-- JavaScript Libraries -->

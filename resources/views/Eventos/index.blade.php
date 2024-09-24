@@ -25,7 +25,7 @@
 
             <!-- Botón para crear un nuevo evento, solo visible para administradores -->
             @if (auth()->user() && auth()->user()->tipo_usuario ==3)
-            <a href="{{ route('eventos.create') }}" class="btn btn-success mb-3">Crear Nuevo Evento</a>
+            <a href="{{ route('Evento.create') }}" class="btn btn-success mb-3">Crear Nuevo Evento</a>
             @endif
 
             @forelse($eventos as $evento)
