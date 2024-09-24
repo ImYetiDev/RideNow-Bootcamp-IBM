@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Ruta para mostrar el formulario de creación de eventos
-    Route::get('/eventos/crear', [EventoController::class, 'create'])->name('eventos.create');
+    Route::get('/eventos/create', [EventoController::class, 'create'])->name('eventos.create');
 
     // Ruta para guardar el evento en la base de datos (formulario de creación)
     Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');

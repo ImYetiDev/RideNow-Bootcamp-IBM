@@ -12,7 +12,7 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">{{ session('nombre') }}!</h6>
-                        <span>{{ session('tipo_usuario') }}</span>
+                        <span>{{ session('tipo_usuario_string') }}</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
