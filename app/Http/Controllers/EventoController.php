@@ -3,87 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evento;
+use App\Models\Participacion;
 use Illuminate\Http\Request;
 
 class EventoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $Evento = Evento::all();
-        
-        return view('Evento.index', compact('Evento'));
+        $eventos = Evento::all(); // Mostrar todos los eventos disponibles
+        return view('eventos.index', compact('eventos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('Evento.Create');//
+        return view('eventos.create'); // Vista para crear un evento
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $evento = new Evento();
-         
-            $evento->nombre = $request->get('nombre');
-           $evento->descripcion = $request->get('descripcion');
-           $evento->fecha = $request->get('fecha');
-           $evento->hora = $request->get('hora');
-           $evento->estado = $request->get('estado');
+        $request->validate([
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'fecha' => 'required|date',
+            'ubicacion' => 'required',
+        ]);
 
-           $evento->save();
-           return redirect()->route('Evento.index'); //
+        Evento::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'fecha' => $request->fecha,
+            'ubicacion' => $request->ubicacion,
+            'organizador_id' => auth()->id(),
+        ]);
+
+        return redirect('/eventos')->with('success', 'Evento creado correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function participar(Evento $evento)
+    {
+        // Verificar si el usuario ya está registrado en el evento
+        if (Participacion::where('evento_id', $evento->id)->where('usuario_id', auth()->id())->exists()) {
+            return redirect('/eventos')->with('error', 'Ya estás registrado en este evento');
+        }
+
+        Participacion::create([
+            'evento_id' => $evento->id,
+            'usuario_id' => auth()->id(),
+        ]);
+
+        return redirect('/eventos')->with('success', 'Te has registrado en el evento');
+    }
+
+    // Mostrar los detalles de un evento específico
     public function show(Evento $evento)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Evento $evento, $id)
-    {
-        $evento = Evento::find($id);
-        return view ("Evento.edit",compact('evento'));  //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Evento $evento, $id)
-    {
-        $evento = Evento::find($id);
-         
-        $evento->nombre = $request->get('nombre');
-           $evento->descripcion = $request->get('descripcion');
-           $evento->fecha = $request->get('fecha');
-           $evento->hora = $request->get('hora');
-           $evento->estado = $request->get('estado');
-
-           $evento->save();
-           return redirect()->route('Evento.index');
-  //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Evento $evento, $id)
-    {
-        $evento = Evento::find($id);
-        $evento->delete();
-        return redirect()->route('Evento.index'); //
+        $participantes = $evento->participantes; // Obtener todos los participantes del evento
+        return view('eventos.show', compact('evento', 'participantes'));
     }
 }

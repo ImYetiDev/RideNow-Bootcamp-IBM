@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Residente;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +16,7 @@ class LoginController extends Controller
         // Hashear la contraseña antes de guardarla
         $usuario['password'] = Hash::make($datos->get('password'));
 
-        Residente::create($usuario);
+        Usuario::create($usuario);
 
         return view('./login');
     }

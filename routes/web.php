@@ -31,17 +31,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/index', function () {
         return view('index');
     })->name('index');
-    Route::resource('Bloque', BloqueController::class);
+    // Route::resource('Bloque', BloqueController::class);
     Route::resource('Evento', EventoController::class);
-    Route::resource('Paquete', PaqueteController::class);
-    Route::resource('Permiso', PermisoController::class); 
-    Route::resource('Reserva', ReservaController::class);
-    Route::resource('Residente', ResidenteController::class);
-    Route::resource('TiposVivienda', TiposViviendaController::class);
-    Route::resource('Usuario', UsuarioController::class);
-    Route::resource('Vivienda', ViviendaController::class);
-    Route::resource('ZonasComun', ZonasComunController::class);
+    // Route::resource('Paquete', PaqueteController::class);
 });
+
+
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/eventos/crear', 'EventoController@create');
+    Route::post('/eventos', 'EventoController@store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/eventos', 'EventoController@index');
+    Route::post('/eventos/{evento}/participar', 'EventoController@participar');
+});
+
+
 
 
 

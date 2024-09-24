@@ -1,17 +1,26 @@
-@section('title', 'Usuarios')
+@section('title', 'Eventos')
 @include('header')
 
 <body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
 
-    @include('sidebar')
+        @include('sidebar')
 
 
-    @section('tabla', 'Usuarios')
-    @include('navbar')
 
-    @include('cards')
+        @include('navbar')
 
-    <script>
+
+        @include('cards')
+
+        <script>
             function cambiarFondo(selected) {
                 var selected = document.getElementById(selected);
 
@@ -34,41 +43,31 @@
                 texto.classList.add('text-dark');
             }
 
-            cambiarFondo('zonasComun');
-            cambiarIcono('zonasComunIcon');
-            cambiarTexto('zonasComunText');
+            cambiarFondo('evento');
+            cambiarIcono('eventoIcon');
+            cambiarTexto('eventoText');
         </script>
+        <h1>Eventos Disponibles</h1>
 
-    <!-- Recent Sales Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-secondary text-center rounded p-4">
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary rounded h-100 p-4">
-                <h6 class="mb-4">Formulario de Zonas Comunes</h6>
-                <form action="{{ url('ZonasComun')}}" method="POST">
-                        @csrf
-
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <input type="text" class="form-control" id="estado" name="estado" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-secondary">Crear Tipo de Vivienda</button>
-                    </form>
-
-
-                </div>
-            </div>
+        @foreach($eventos as $evento)
+        <div>
+            <h2>{{ $evento->nombre }}</h2>
+            <p>{{ $evento->descripcion }}</p>
+            <p>Fecha: {{ $evento->fecha }}</p>
+            <p>Ubicación: {{ $evento->ubicacion }}</p>
+            <form action="/eventos/{{ $evento->id }}/participar" method="POST">
+                @csrf
+                <button type="submit">Registrarse en el evento</button>
+            </form>
         </div>
+        @endforeach
+
+
+
+        @include('footer')
+
     </div>
-
-
-
+    <!-- Content End -->
 
 
     <!-- Back to Top -->
