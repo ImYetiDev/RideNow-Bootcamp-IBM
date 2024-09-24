@@ -17,7 +17,23 @@
 
         @include('navbar')
 
-        
+        <div class="container">
+            <div class="row">
+                @foreach($Regionales as $dato)
+                <div class="col-md-4 mb-4"> <!-- Ajusta el número de columnas según tus necesidades -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-success">{{$dato->nombre}}</h3>
+                        </div>
+                        <div class="card-body">
+                            <a href="{{ route('Alquilar.show', $dato->id) }}" class="btn btn-primary">Alquilar</a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
 
 
         @include('footer')

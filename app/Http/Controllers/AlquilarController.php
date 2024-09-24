@@ -14,11 +14,11 @@ class AlquilarController extends Controller
      */
     public function index()
     {
-        $alquilar = Alquilar::all(); // Mostrar todos los eventos disponibles
+        $Alquilar = Alquilar::all(); // Mostrar todos los eventos disponibles
         
         $Bicicletas = Bicicleta::all();
         $Regionales = Regionales::all();
-        return view('alquilar.index', compact('alquilar', 'Bicicletas', 'Regionales'));
+        return view('alquilar.index', compact('Alquilar', 'Bicicletas', 'Regionales'));
     }
 
     /**
