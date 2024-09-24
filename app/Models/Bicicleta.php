@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bicicletas extends Model
+class Bicicleta extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,10 @@ class Bicicletas extends Model
     
     protected $fillable = [
         'id',
-        
+        'marca',
+        'color',
+        'estado',
+        'precio',
+        'ubicacion_actual'
     ];
     }

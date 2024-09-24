@@ -15,12 +15,12 @@
         @include('navbar')
 
         @include('cards')
-
+        <div class="container-fluid position-relative d-block p-4">
         @if(session('nombre'))
         <p>Bienvenido, {{ session('nombre') }}!</p>
         <p>Tipo de usuario, {{ session('tipo_usuario_string') }}!</p>
         @endif
-
+        </div>
 
         @include('footer')
 

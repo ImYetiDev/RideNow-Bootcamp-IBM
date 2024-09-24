@@ -39,7 +39,7 @@ class EventoController extends Controller
             'organizador_id' => auth()->id(), // El usuario autenticado como organizador
         ]);
         // return view('eventos');
-        return redirect()->route('eventos.index')->with('success', 'Evento creado correctamente');
+        return redirect()->route('Evento.index')->with('success', 'Evento creado correctamente');
     }
 
     public function participar($id)

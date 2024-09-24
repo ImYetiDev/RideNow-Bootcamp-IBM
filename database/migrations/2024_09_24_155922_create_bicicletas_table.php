@@ -9,9 +9,10 @@ class CreateBicicletasTable extends Migration
     {
         Schema::create('bicicletas', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo', 50)->unique();
-            $table->string('modelo', 100);
-            $table->enum('estado', ['disponible', 'en uso', 'mantenimiento'])->default('disponible');
+            $table->string('marca', 50)->unique();
+            $table->string('color', 50);
+            $table->integer('estado')->default(1); // 1 = Disponible, 0 = No disponible
+            $table->integer('precio');
             $table->string('ubicacion_actual')->nullable(); // Coordenadas o estación
             $table->timestamps();
         });

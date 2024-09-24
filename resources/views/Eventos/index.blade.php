@@ -31,7 +31,7 @@
             @forelse($eventos as $evento)
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3 class="card-title">{{ $evento->nombre }}</h3>
+                    <h3 class="card-title text-dark">{{ $evento->nombre }}</h3>
                     <p class="card-text">{{ $evento->descripcion }}</p>
                     <p class="card-text">Fecha: {{ $evento->fecha }}</p>
                     <p class="card-text">Ubicación: {{ $evento->ubicacion }}</p>
