@@ -46,7 +46,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre del Evento</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control bg-color:" required>
+                    <input type="text" name="nombre" id="nombre" class="form-control .bg-primary" required>
                 </div>
     
                 <div class="form-group">

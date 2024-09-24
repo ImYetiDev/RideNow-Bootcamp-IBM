@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::post('/create', [EventoController::class, 'create'])->name('eventos.create');
 
     // Ruta para guardar el evento en la base de datos (formulario de creación)
-    Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
+    Route::post('/eventos.store', [EventoController::class, 'store'])->name('eventos.store');
 });
 
 
