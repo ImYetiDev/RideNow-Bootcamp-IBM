@@ -17,7 +17,8 @@ class BicicletasController extends Controller{
     public  function map(){
         
         return view('map');
-    }
+        // return "hola";
+        }
 
     public function mostrarBicicletas($region)
     {

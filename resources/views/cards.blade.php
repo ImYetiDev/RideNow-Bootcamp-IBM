@@ -32,7 +32,7 @@
                     >
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4"
                         id="bloque">
-                        <i class="bi bi-bicycle fa-3x text-success"
+                        <i class="bi bi-map fa-3x text-success"
                         id="biciIcon"></i>   
                                 <div class="ms-3">
                                 <p class="mb-2"

@@ -31,14 +31,24 @@ class AlquilarController extends Controller
             return abort(404, 'Región no encontrada');
         }
 
-        // Obtener las bicicletas disponibles en esa región con estado "disponible"
-        $bicicletas = Bicicleta::where('region_id', $region_id)
-            ->where('estado', 'Libre')
-            ->get();
+        // Obtener el tipo de usuario desde la sesión
+        $tipoUsuario = session('tipo_usuario');
+
+        // Verificar el tipo de usuario
+        if ($tipoUsuario == 3) {
+            // Si es administrador, mostrar todas las bicicletas
+            $bicicletas = Bicicleta::where('region_id', $region_id)->get();
+        } else {
+            // Si es usuario normal, mostrar solo las bicicletas disponibles
+            $bicicletas = Bicicleta::where('region_id', $region_id)
+                ->where('estado', 'disponible')
+                ->get();
+        }
 
         // Retornar la vista con las bicicletas y la región
         return view('alquilar.bicicletas', compact('bicicletas', 'region'));
     }
+
 
     public function alquilarBicicleta($bicicleta_id)
     {
