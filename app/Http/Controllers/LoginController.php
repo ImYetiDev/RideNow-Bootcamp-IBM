@@ -46,6 +46,9 @@ class LoginController extends Controller
             $request->session()->put('nombre', $nombreInicialMayuscula);
             $tipoUsuarioInicialMayuscula = ucfirst($user->tipo_usuario);
             $request->session()->put('tipo_usuario', $tipoUsuarioInicialMayuscula);
+            // Al autenticar al usuario
+            session(['usuario_id' => auth()->user()->id]);
+
 
             switch (session('tipo_usuario')) {
                 case 1:

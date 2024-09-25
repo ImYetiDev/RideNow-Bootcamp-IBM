@@ -18,6 +18,26 @@ class Alquilar extends Model
         'estacion_fin_id',
         'fecha_inicio',
         'fecha_fin',
-        'estado'
+        'estado',
     ];
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class);
     }
+
+    public function bicicleta()
+    {
+        return $this->belongsTo(Bicicleta::class);
+    }
+
+    public function estacion_inicio()
+    {
+        return $this->belongsTo(Estacion::class, 'estacion_inicio_id');
+    }
+
+    public function estacion_fin()
+    {
+        return $this->belongsTo(Estacion::class, 'estacion_fin_id');
+    }
+}
