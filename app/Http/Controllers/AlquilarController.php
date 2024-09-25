@@ -141,12 +141,13 @@ class AlquilarController extends Controller
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
 
-        // Obtener el usuario
+        // Obtener el usuario y su estrato
         $usuario_id = session('usuario_id');
+        $estrato = session('estrato');
 
         // Verificar si el usuario ya tiene una bicicleta alquilada
         $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
-            ->where('estado', 'pendiente')  // O estado 'alquilada'
+            ->where('estado', 'pendiente')
             ->exists();
 
         if ($alquilerActivo) {
@@ -154,19 +155,31 @@ class AlquilarController extends Controller
         }
 
         try {
-            // Obtener la bicicleta y su precio
+            // Obtener la bicicleta y su precio por hora
             $bicicleta = Bicicleta::find($request->bicicleta_id);
-            $precioPorHora = $bicicleta->precio;  // Asumiendo que el campo 'precio' es el precio por hora
+            $precioPorHora = $bicicleta->precio;
 
             // Convertir las fechas a instancias de Carbon
             $fechaInicio = Carbon::parse($request->fecha_inicio);
-            $fechaFin = Carbon::parse($request->fecha_fin ?? now());  // Usar 'now()' si no se especifica la fecha de fin
+            $fechaFin = Carbon::parse($request->fecha_fin ?? now());
 
-            // Calcular la duración en horas (redondeado hacia arriba)
+            // Calcular la duración en horas
             $duracionHoras = ceil($fechaInicio->diffInMinutes($fechaFin) / 60);
 
-            // Calcular la tarifa total
+            // Calcular la tarifa total antes de aplicar el descuento
             $tarifa = $duracionHoras * $precioPorHora;
+
+            // Calcular el descuento según el estrato
+            $descuento = 0;
+            if ($estrato == 1 || $estrato == 2) {
+                $descuento = 0.10; // 10% de descuento para estratos 1 y 2
+            } elseif ($estrato == 3 || $estrato == 4) {
+                $descuento = 0.05; // 5% de descuento para estratos 3 y 4
+            }
+
+            // Calcular el monto del descuento y la tarifa final
+            $montoDescuento = $tarifa * $descuento;
+            $tarifaFinal = $tarifa - $montoDescuento;
 
             // Crear el registro de alquiler
             Alquilar::create([
@@ -177,15 +190,20 @@ class AlquilarController extends Controller
                 'fecha_inicio' => $fechaInicio,
                 'fecha_fin' => $fechaFin,
                 'estado' => 'pendiente',
-                'tarifa' => $tarifa,
+                'tarifa' => $tarifaFinal,
             ]);
 
             // Actualizar el estado de la bicicleta a 'Alquilada'
             $bicicleta->estado = 'Alquilada';
             $bicicleta->save();
 
-            return redirect('/')->with('success', '¡Felicidades! Alquiler completado con éxito. Tarifa total: $' . $tarifa);
+            // Retornar con el mensaje de éxito mostrando el desglose de la tarifa y el descuento
+            return redirect('/')->with('success', '¡Alquiler completado con éxito! 
+                 Tarifa original: $' . number_format($tarifa, 2) .
+                '. Descuento aplicado: $' . number_format($montoDescuento, 2) .
+                '. Total a pagar: $' . number_format($tarifaFinal, 2));
         } catch (\Exception $e) {
+            logger($e->getMessage());
             return redirect('/')->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
         }
     }
