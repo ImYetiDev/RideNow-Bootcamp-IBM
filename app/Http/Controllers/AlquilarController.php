@@ -39,15 +39,16 @@ class AlquilarController extends Controller
             // Si es administrador, mostrar todas las bicicletas
             $bicicletas = Bicicleta::where('region_id', $region_id)->get();
         } else {
-            // Si es usuario normal, mostrar solo las bicicletas disponibles
+            // Si es usuario normal, mostrar solo las bicicletas con estado 'Libre'
             $bicicletas = Bicicleta::where('region_id', $region_id)
-                ->where('estado', 'disponible')
+                ->where('estado', 'Libre')  // Filtrar por el estado "Libre"
                 ->get();
         }
 
         // Retornar la vista con las bicicletas y la región
         return view('alquilar.bicicletas', compact('bicicletas', 'region'));
     }
+
 
 
     public function alquilarBicicleta($bicicleta_id)

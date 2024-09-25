@@ -1,6 +1,12 @@
 @section('title', 'Alquilar')
 @include('header')
 
+@include('sidebar')
+
+@include('navbar')
+
+@include('cards')
+<br>
 <body>
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
@@ -9,13 +15,8 @@
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
-        <!-- Spinner End -->
 
-        @include('sidebar')
-
-
-
-        @include('navbar')
+        
 
         <div class="container" >
             <div class="row">
@@ -38,14 +39,14 @@
 
 
 
-        @include('footer')
-
+        
     </div>
     <!-- Content End -->
-
-
+    
+    
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    @include('footer')
     </div>
 
     <!-- JavaScript Libraries -->

@@ -3,6 +3,13 @@
 
 <body>
     <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner Start -->
+        <!-- <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div> -->
+        <!-- Spinner End -->
 
         @include('sidebar')
 
@@ -14,73 +21,66 @@
         @include('cards')
 
         <div class="container-fluid position-relative d-block p-4">
+            <h1>Mapa</h1>
 
-            <div class="container">
-                <h1>Ubicación de Bicicletas en Tiempo Real</h1>
+            <!-- Mapa de Google -->
+            <div id="map" style="height: 500px; width: 100%;"></div>
 
-                <!-- Mapa de Google -->
-                <!-- <div id="map" style="height: 500px; width: 100%;"></div> -->
-            </div>
+
+
         </div>
 
-        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFDijGzbbLbz1cKolz8M0IICTSovLb-A8&callback=initMap" async defer></script>
 
         <script>
-            var map;
-            var markers = [];
 
-            function initMap() {
-                // Inicializar el mapa centrado en una ubicación (por ejemplo, Cali)
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: {
-                        lat: 3.4516,
-                        lng: -76.531985
-                    }, // Coordenadas de Cali
-                    zoom: 13
-                });
+    //funciones mapa
+    var map;
+        var markers = [];
 
-                // Cargar las ubicaciones de las bicicletas en tiempo real
-                loadBikeLocations();
-            }
+        function initMap() {
+            // Inicializar el mapa centrado en una ubicación (por ejemplo, Cali)
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 3.4516, lng: -76.531985},  // Coordenadas de Cali
+                zoom: 13
+            });
 
-            // Función para cargar ubicaciones de bicicletas desde el servidor
-            function loadBikeLocations() {
-                fetch("{{ route('bicicletas.ubicaciones') }}")
-                    .then(response => response.json())
-                    .then(data => {
-                        clearMarkers(); // Limpiar los marcadores anteriores
-                        data.forEach(bike => {
-                            addMarker(bike); // Añadir un nuevo marcador por cada bicicleta
-                        });
+            // Cargar las ubicaciones de las bicicletas en tiempo real
+            loadBikeLocations();
+        }
+
+        // Función para cargar ubicaciones de bicicletas desde el servidor
+        function loadBikeLocations() {
+            fetch('{{ route('bicicletas.ubicaciones') }}')
+                .then(response => response.json())
+                .then(data => {
+                    clearMarkers();  // Limpiar los marcadores anteriores
+                    data.forEach(bike => {
+                        addMarker(bike);  // Añadir un nuevo marcador por cada bicicleta
                     });
-
-                // Actualizar las ubicaciones cada 10 segundos
-                setTimeout(loadBikeLocations, 10000);
-            }
-
-            // Función para añadir un marcador en el mapa
-            function addMarker(bike) {
-                var marker = new google.maps.Marker({
-                    position: {
-                        lat: bike.latitude,
-                        lng: bike.longitude
-                    },
-                    map: map,
-                    title: 'Bicicleta #' + bike.id
                 });
-                markers.push(marker);
-            }
 
-            // Limpiar los marcadores anteriores
-            function clearMarkers() {
-                markers.forEach(marker => marker.setMap(null));
-                markers = [];
-            }
-        </script>
-        @endsection -->
+            // Actualizar las ubicaciones cada 10 segundos
+            setTimeout(loadBikeLocations, 10000);
+        }
 
+        // Función para añadir un marcador en el mapa
+        function addMarker(bike) {
+            var marker = new google.maps.Marker({
+                position: {lat: bike.latitude, lng: bike.longitude},
+                map: map,
+                title: 'Bicicleta #' + bike.id
+            });
+            markers.push(marker);
+        }
 
-        <script>
+        // Limpiar los marcadores anteriores
+        function clearMarkers() {
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+        }
+
+        //
+
             function cambiarFondo(selected) {
                 var selected = document.getElementById(selected);
 
