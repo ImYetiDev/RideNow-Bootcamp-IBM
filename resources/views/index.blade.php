@@ -36,7 +36,12 @@
 
         <div class="container-fluid position-relative d-block p-4">
            <div class="image">
-            <img src="../img" alt="">
+            <!-- <img src="logoRBlanco.png" width="400" alt=""> -->
+            <!-- <img src="{{ asset('img/logoRBlanco.png') }}" alt="Logo RideNow"> -->
+            <img src="{{ asset('img/untitled-1.jpg')}}" alt="" style="width: 400px; height: 400px;">
+            <img src="/img/untitled-1.jpg" alt="" style="width: 400px; height: 400px;">
+
+
            </div>
         </div>
 

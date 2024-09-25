@@ -15,11 +15,12 @@ class CreateBicicletasTable extends Migration
             $table->string('estado');  // 1 = Disponible, 0 = No disponible
             $table->integer('precio');
             $table->unsignedBigInteger('region_id');  // Llave foránea
-            $table->string('ubicacion_actual')->nullable();  // Coordenadas o estación
+            $table->unsignedBigInteger('estacion_id');  // Llave foránea
             $table->timestamps();
 
             // Definir la clave foránea con la tabla 'regionales'
             $table->foreign('region_id')->references('id')->on('regionales')->onDelete('cascade');
+            $table->foreign('estacion_id')->references('id')->on('estaciones')->onDelete('cascade');
         });
     }
 

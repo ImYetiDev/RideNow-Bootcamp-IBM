@@ -1,22 +1,30 @@
 @section('title', 'Login')
 @include('header')
- 
-
 
 
 <style>
- 
- .error{
-    color: red;
-    text-align: center;
-    font-size: .9rem;
-    padding: 2px 0;
-    border: 1px solid red;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    .error {
+        color: red;
+        text-align: center;
+        font-size: .9rem;
+        padding: 2px 0;
+        border: 1px solid red;
+        border-radius: 10px;
+        margin-bottom: 10px;
 
- }
+    }
 
+    @font-face {
+        font-family: 'BebasNeue-Regular';
+        src: url("{{ asset('fonts/BebasNeue-Regular.ttf') }}") format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .logo {
+        font-family: 'BebasNeue-Regular', sans-serif;
+        font-size: 33;
+    }
 </style>
 
 <body>
@@ -36,32 +44,34 @@
                 <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
                     <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
                         <div class="d-flex align-items-center justify-content-between mb-3">
+                            <img src="" alt="" style="width: 400px; height: 400px;">
+
                             <a href="#" class="">
-                                <h3 class="text-success"><i class="fa fa-user-edit me-2"></i>RideNow</h3>
+                                <h3 class="text-success logo"><i class="fa fa-user-edit me-2"></i>RideNow</h3>
                             </a>
                             <h3>Inicia Sesion</h3>
                         </div>
 
                         <form action="check" method="POST">
-    @csrf
+                            @csrf
 
-                        @error( 'email' )
-                        <div class="error">
-                            {{ $message }}
-                        </div>
-                        @enderror
+                            @error( 'email' )
+                            <div class="error">
+                                {{ $message }}
+                            </div>
+                            @enderror
 
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="Email" name="email" required autofocus value="{{ old('email') }}">
-                            <label for="floatingInput">Correo Electronico</label>
-                        </div>
-                        <div class="form-floating mb-4">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
-                            <label for="floatingPassword">Contraseña</label>
-                        </div>
-                       
-                        <button type="submit" class="btn btn-success py-3 w-100 mb-4" >Iniciar Sesion</button>
-                        <p class="text-center mb-0">No tienes una cuenta? <a href="\register">Registrar</a></p>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="floatingInput" placeholder="Email" name="email" required autofocus value="{{ old('email') }}">
+                                <label for="floatingInput">Correo Electronico</label>
+                            </div>
+                            <div class="form-floating mb-4">
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+                                <label for="floatingPassword">Contraseña</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-success py-3 w-100 mb-4">Iniciar Sesion</button>
+                            <p class="text-center mb-0">No tienes una cuenta? <a href="\register">Registrar</a></p>
                     </div>
 
                     </form>

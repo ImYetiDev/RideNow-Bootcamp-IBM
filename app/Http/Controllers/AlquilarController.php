@@ -11,82 +11,113 @@ use App\Models\Regionales;
 class AlquilarController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar todas las bicicletas disponibles por región
      */
-    public function index()
+    public function mostrarBicicletas($region_id)
     {
-        $Alquilar = Alquilar::all(); // Mostrar todos los eventos disponibles
+        // Obtener la región seleccionada
+        $region = Regionales::find($region_id);
 
-        $Bicicletas = Bicicleta::all();
-        $Regionales = Regionales::all();
-        return view('alquilar.index', compact('Alquilar', 'Bicicletas', 'Regionales'));
-    }
-
-        public function mostrarBicicletas($region_id)
-        {
-            // Obtener la región seleccionada
-            $region = Regionales::find($region_id);
-
-            // Verificar si la región existe
-            if (!$region) {
-                return abort(404, 'Región no encontrada');
-            }
-
-            // Obtener el tipo de usuario desde la sesión
-            $tipoUsuario = session('tipo_usuario');
-
-            // Verificar el tipo de usuario
-            if ($tipoUsuario == 3) {
-                // Si es administrador, mostrar todas las bicicletas
-                $bicicletas = Bicicleta::where('region_id', $region_id)->get();
-            } else {
-                // Si es usuario normal, mostrar solo las bicicletas con estado 'Libre'
-                $bicicletas = Bicicleta::where('region_id', $region_id)
-                    ->where('estado', 'Libre')  // Filtrar por el estado "Libre"
-                    ->get();
-            }
-
-            // Retornar la vista con las bicicletas y la región
-            return view('alquilar.bicicletas', compact('bicicletas', 'region'));
+        // Verificar si la región existe
+        if (!$region) {
+            return abort(404, 'Región no encontrada');
         }
 
+        // Obtener el tipo de usuario desde la sesión
+        $tipoUsuario = session('tipo_usuario');
+        $usuario_id = session('usuario_id');
 
+        // Verificar si el usuario ya tiene una bicicleta alquilada
+        $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
+                                  ->where('estado', 'pendiente')  // O estado 'alquilada'
+                                  ->exists();
 
+        // Filtrar las bicicletas según el tipo de usuario
+        if ($tipoUsuario == 3) {
+            // Si es administrador, mostrar todas las bicicletas
+            $bicicletas = Bicicleta::where('region_id', $region_id)->get();
+        } else {
+            // Si es usuario normal, mostrar solo las bicicletas libres
+            $bicicletas = Bicicleta::where('region_id', $region_id)
+                                   ->where('estado', 'Libre')
+                                   ->get();
+        }
+
+        // Retornar la vista con las bicicletas, la región, y si tiene un alquiler activo
+        return view('alquilar.bicicletas', compact('bicicletas', 'region', 'alquilerActivo'));
+    }
+
+    /**
+     * Función para alquilar una bicicleta.
+     */
     public function alquilarBicicleta($bicicleta_id)
     {
-        // Obtener la bicicleta por su ID
+        $usuario_id = session('usuario_id');
+
+        // Verificar si el usuario ya tiene una bicicleta alquilada
+        $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
+                                  ->where('estado', 'pendiente')  // O estado 'alquilada'
+                                  ->exists();
+
+        if ($alquilerActivo) {
+            return redirect()->back()->with('error', 'Ya tienes una bicicleta alquilada. No puedes alquilar otra.');
+        }
+
+        // Verificar si la bicicleta está disponible
         $bicicleta = Bicicleta::find($bicicleta_id);
 
-        // Verificar si la bicicleta existe y si está disponible
         if (!$bicicleta || $bicicleta->estado !== 'Libre') {
             return redirect()->back()->with('error', 'La bicicleta no está disponible para alquilar.');
         }
 
-        // Cambiar el estado a 'alquilada'
+        // Alquilar la bicicleta
+        Alquilar::create([
+            'usuario_id' => $usuario_id,
+            'bicicleta_id' => $bicicleta_id,
+            'estado' => 'pendiente',
+            'fecha_inicio' => now(),
+        ]);
+
+        // Cambiar el estado de la bicicleta a 'Alquilada'
         $bicicleta->estado = 'Alquilada';
         $bicicleta->save();
 
-        // Redirigir a la página anterior con un mensaje de éxito
-        return redirect()->back()->with('success', 'Has alquilado la bicicleta con éxito.');
+        return redirect()->route('alquilar.bicicletas', ['region_id' => $bicicleta->region_id])
+            ->with('success', 'Has alquilado la bicicleta con éxito.');
     }
 
-    // Mostrar formulario para alquilar bicicleta
+    /**
+     * Mostrar formulario para alquilar bicicleta.
+     */
     public function formulario($bicicleta_id)
     {
         // Obtener la bicicleta seleccionada
         $bicicleta = Bicicleta::find($bicicleta_id);
 
-        // Obtener todas las estaciones (esto lo puedes modificar según tus necesidades)
+        // Obtener todas las estaciones
         $estaciones = Estacion::all();
 
         // Retornar la vista con la bicicleta y las estaciones
         return view('alquilar.formulario', compact('bicicleta', 'estaciones'));
     }
 
-    // Guardar los datos del alquiler
+    /**
+     * Guardar los datos del alquiler.
+     */
     public function guardar(Request $request)
     {
+        // Verificar si el usuario ya tiene una bicicleta alquilada
+        $usuario_id = session('usuario_id');
+        $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
+                                  ->where('estado', 'pendiente')  // O estado 'alquilada'
+                                  ->exists();
+
+        if ($alquilerActivo) {
+            return redirect()->back()->with('error', 'Ya tienes una bicicleta alquilada. No puedes alquilar otra.');
+        }
+
         try {
+            // Crear el registro de alquiler
             Alquilar::create([
                 'usuario_id' => session('usuario_id'),
                 'bicicleta_id' => $request->bicicleta_id,
@@ -94,6 +125,7 @@ class AlquilarController extends Controller
                 'estacion_fin_id' => $request->estacion_fin_id,
                 'fecha_inicio' => $request->fecha_inicio,
                 'fecha_fin' => $request->fecha_fin,
+                'estado' => 'pendiente',
             ]);
 
             // Actualizar el estado de la bicicleta a 'Alquilada'
@@ -101,26 +133,23 @@ class AlquilarController extends Controller
             $bicicleta->estado = 'Alquilada';
             $bicicleta->save();
 
-            return redirect('/')
-                ->with('success', '¡Felicidades! Alquiler completado con éxito.');
+            return redirect('/')->with('success', '¡Felicidades! Alquiler completado con éxito.');
         } catch (\Exception $e) {
-            return redirect('/')
-                ->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
+            return redirect('/')->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
         }
     }
 
-
     /**
-     * Show the form for creating a new resource.
+     * Crear un nuevo registro de alquiler.
      */
     public function create()
     {
         $Alquilar = Alquilar::all();
-        return view('Alquilar.Create', compact('Alquilar')); //
+        return view('Alquilar.Create', compact('Alquilar'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guardar un nuevo registro en la base de datos.
      */
     public function store(Request $request)
     {
@@ -136,27 +165,20 @@ class AlquilarController extends Controller
         $Alquilar->estado = $request->get('estado');
 
         $Alquilar->save();
-        return redirect()->route('Alquilar.index'); //
+        return redirect()->route('Alquilar.index');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id) {}
-
-    /**
-     * Show the form for editing the specified resource.
+     * Mostrar el formulario de edición de un alquiler.
      */
     public function edit(string $id)
     {
-
         $Alquilar = Alquilar::with('vivienda')->findOrFail($id);
-
-        return view('Alquilar.edit', compact('Alquilar', 'viviendas')); //
+        return view('Alquilar.edit', compact('Alquilar'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar los datos de un alquiler.
      */
     public function update(Request $request, string $id)
     {
@@ -172,16 +194,16 @@ class AlquilarController extends Controller
         $Alquilar->estado = $request->get('estado');
 
         $Alquilar->save();
-        return redirect()->route('Alquilar.index'); //
+        return redirect()->route('Alquilar.index');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar un alquiler.
      */
     public function destroy(string $id)
     {
         $Alquilar = Alquilar::find($id);
         $Alquilar->delete();
-        return redirect()->route('Alquilar.index'); //
+        return redirect()->route('Alquilar.index');
     }
 }

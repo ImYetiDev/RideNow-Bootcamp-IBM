@@ -23,7 +23,7 @@ class CreateAlquileresTable extends Migration
             $table->timestamps();
 
             // Claves foráneas
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
             $table->foreign('bicicleta_id')->references('id')->on('bicicletas')->onDelete('cascade');
             $table->foreign('estacion_inicio_id')->references('id')->on('estaciones')->onDelete('set null');
             $table->foreign('estacion_fin_id')->references('id')->on('estaciones')->onDelete('set null');
