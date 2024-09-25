@@ -120,4 +120,11 @@ class BicicletasController extends Controller
 
         return response()->json($estaciones);
     }
+
+    public function getBikeLocations()
+    {
+        // Supongamos que tienes un modelo "Bicicleta" con latitud y longitud almacenados
+        $bicicletas = Bicicleta::select('id', 'latitude', 'longitude')->get();
+        return response()->json($bicicletas);
+    }
 }

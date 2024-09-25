@@ -37,37 +37,40 @@
                 attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Array de ubicaciones de bicicletas (esto es un ejemplo, podrías obtenerlas en tiempo real)
-            var bikeLocations = [{
-                    lat: 3.4372,
-                    lng: -76.5225,
-                    info: 'Bicicleta 1'
-                },
-                {
-                    lat: 3.4613,
-                    lng: -76.5453,
-                    info: 'Bicicleta 2'
-                },
-                {
-                    lat: 3.4501,
-                    lng: -76.5321,
-                    info: 'Bicicleta 3'
-                }
-            ];
-
             // Función para agregar marcadores al mapa
-            bikeLocations.forEach(function(location) {
-                var marker = L.marker([location.lat, location.lng]).addTo(map);
-                marker.bindPopup(location.info); // Información cuando se haga clic en el marcador
-            });
+            function addMarkersToMap(bikeLocations) {
+                // Limpiar todos los marcadores anteriores (si estás actualizando en tiempo real)
+                map.eachLayer(function(layer) {
+                    if (layer instanceof L.Marker) {
+                        map.removeLayer(layer);
+                    }
+                });
 
-            // Función para actualizar las ubicaciones de las bicicletas en tiempo real (simulado)
-            function updateBikeLocations(newLocations) {
-                // Aquí puedes actualizar los marcadores, eliminar los antiguos y agregar nuevos
+                // Agregar cada ubicación de bicicleta como un marcador en el mapa
+                bikeLocations.forEach(function(location) {
+                    var marker = L.marker([location.latitude, location.longitude]).addTo(map);
+                    marker.bindPopup("Bicicleta ID: " + location.id); // Mostrar el ID de la bicicleta
+                });
             }
 
-            // Si tienes un servicio que proporciona las ubicaciones en tiempo real, podrías usar fetch() o WebSockets para actualizar
+            // Función para obtener ubicaciones de las bicicletas desde la base de datos
+            function fetchBikeLocations() {
+                fetch('/bicicletas') // Asegúrate de tener un endpoint en tu servidor que devuelva las ubicaciones de las bicicletas en JSON
+                    .then(response => response.json())
+                    .then(data => {
+                        // Llamar a la función para agregar marcadores usando los datos recibidos
+                        addMarkersToMap(data);
+                    })
+                    .catch(error => console.error('Error al obtener las ubicaciones:', error));
+            }
+
+            // Llamar a la función para cargar las ubicaciones de las bicicletas al cargar la página
+            fetchBikeLocations();
+
+            // Si quieres actualizar las ubicaciones en tiempo real, puedes hacer una llamada repetida con un intervalo
+            setInterval(fetchBikeLocations, 30000); // Actualizar cada 30 segundos (puedes ajustar el intervalo según sea necesario)
         </script>
+
 
         </head>
 
