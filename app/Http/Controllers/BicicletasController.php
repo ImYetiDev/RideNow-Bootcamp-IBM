@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bicicleta;
+use App\Models\Estacion;
 
-class BicicletasController extends Controller{
+class BicicletasController extends Controller
+{
     /**
      * Display a listing of the resource.
      */
@@ -14,11 +16,12 @@ class BicicletasController extends Controller{
         $bicicleta = Bicicleta::all(); // Mostrar todos los eventos disponibles
         return view('bicicleta.index', compact('bicicleta'));
     }
-    public  function map(){
-        
+    public  function map()
+    {
+
         return view('map');
         // return "hola";
-        }
+    }
 
     public function mostrarBicicletas($region)
     {
@@ -107,8 +110,8 @@ class BicicletasController extends Controller{
     public function ubicaciones()
     {
         // Suponemos que la tabla 'bicicletas' tiene columnas 'latitude' y 'longitude'
-        $bicicletas = Bicicleta::select('id', 'latitude', 'longitude')->get();
+        $estaciones = Estacion::all(['nombre_estacion', 'direccion', 'latitude', 'longitude']);
 
-        return response()->json($bicicletas);
+        return response()->json($estaciones);
     }
 }

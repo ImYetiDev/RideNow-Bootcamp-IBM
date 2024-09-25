@@ -24,7 +24,7 @@
             <h1>Mapa</h1>
 
             <!-- Mapa de Google -->
-            <div id="map" style="height: 500px; width: 100%;"></div>
+            <div id="map" class="pb-5 mb-4" style="height: 450px; width: 100%;"></div>
         </div>
 
         <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
