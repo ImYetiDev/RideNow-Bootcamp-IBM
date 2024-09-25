@@ -21,6 +21,7 @@ class CreateAlquileresTable extends Migration
             $table->dateTime('fecha_fin')->nullable();
             $table->string('estado');
             $table->timestamps();
+            $table->integer('tarifa')->nullable();
 
             // Claves foráneas
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');

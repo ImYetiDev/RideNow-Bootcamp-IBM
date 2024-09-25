@@ -98,15 +98,17 @@ class AlquilarController extends Controller
         Alquilar::create([
             'usuario_id' => $usuario_id,
             'bicicleta_id' => $bicicleta_id,
-            'estado' => 'pendiente',  // Esto está en la tabla de alquileres, pero estado en bicicletas está separado
             'fecha_inicio' => now(),
+            'estado' => 'pendiente',
+            'tarifa' => 100,
+
         ]);
 
         // Cambiar el estado de la bicicleta a 'Alquilada'
         $bicicleta->estado = 'Alquilada';
         $bicicleta->save();
 
-        return redirect()->route('alquilar.bicicletas', ['region_id' => $bicicleta->region_id])
+        return redirect()->route('alquilar.show', ['region_id' => $bicicleta->region_id])
             ->with('success', 'Has alquilado la bicicleta con éxito.');
     }
 

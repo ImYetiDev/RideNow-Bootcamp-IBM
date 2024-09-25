@@ -29,21 +29,12 @@
 
         <div class="container-fluid position-relative d-block p-4">
             @if(session('nombre'))
-            <p>Bienvenido, {{ session('nombre') }}!</p>
+            <h2>Bienvenido, {{ session('nombre') }}!</h2>
             <!-- <p>Tipo de usuario, {{ session('tipo_usuario_string') }}!</p> -->
             @endif
         </div>
 
-        <div class="container-fluid position-relative d-block p-4">
-           <div class="image">
-            <!-- <img src="logoRBlanco.png" width="400" alt=""> -->
-            <!-- <img src="{{ asset('img/logoRBlanco.png') }}" alt="Logo RideNow"> -->
-            <img src="{{ asset('img/untitled-1.jpg')}}" alt="" style="width: 400px; height: 400px;">
-            <img src="/img/untitled-1.jpg" alt="" style="width: 400px; height: 400px;">
-
-
-           </div>
-        </div>
+      
 
         <footer class="footer fixed-bottom ml-4">
             @include('footer')
@@ -52,7 +43,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-success bg-success btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-success bg-success btn-lg-square back-to-top" style="z-index: 1050;"><i class="bi bi-arrow-up"></i></a>
     </div>
 
     <!-- JavaScript Libraries -->

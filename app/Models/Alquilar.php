@@ -18,7 +18,6 @@ class Alquilar extends Model
         'estacion_fin_id',
         'fecha_inicio',
         'fecha_fin',
-        'estado',
     ];
 
     public function usuario()
