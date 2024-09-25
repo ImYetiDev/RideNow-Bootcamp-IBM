@@ -19,7 +19,7 @@ class CreateAlquileresTable extends Migration
             $table->unsignedBigInteger('estacion_fin_id')->nullable();
             $table->dateTime('fecha_inicio');
             $table->dateTime('fecha_fin')->nullable();
-            $table->string('estado')->default('pendiente');
+            $table->string('estado');
             $table->timestamps();
 
             // Claves foráneas

@@ -10,6 +10,26 @@ use App\Models\Regionales;
 
 class AlquilarController extends Controller
 {
+    public function index()
+    {
+        // Obtener el ID del usuario logueado
+        $usuario_id = session('usuario_id');
+        $Regionales = Regionales::all();
+
+        // Buscar el alquiler activo del usuario
+        $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
+            ->whereHas('bicicleta', function ($query) {
+                $query->where('estado', 'Alquilada');  // Verificar el estado de la bicicleta
+            })
+            ->first();
+
+        // Mostrar todas las bicicletas disponibles (si no hay alquiler activo)
+        $bicicletasDisponibles = Bicicleta::where('estado', 'Libre')->get();
+
+        // Pasar los alquileres activos y bicicletas a la vista
+        return view('alquilar.index', compact('alquilerActivo', 'bicicletasDisponibles', 'Regionales'));
+    }
+
     /**
      * Mostrar todas las bicicletas disponibles por región
      */
@@ -29,8 +49,10 @@ class AlquilarController extends Controller
 
         // Verificar si el usuario ya tiene una bicicleta alquilada
         $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
-                                  ->where('estado', 'pendiente')  // O estado 'alquilada'
-                                  ->exists();
+            ->whereHas('bicicleta', function ($query) {
+                $query->where('estado', 'Alquilada');  // Verificar el estado de la bicicleta en la tabla bicicletas
+            })
+            ->exists();
 
         // Filtrar las bicicletas según el tipo de usuario
         if ($tipoUsuario == 3) {
@@ -39,8 +61,8 @@ class AlquilarController extends Controller
         } else {
             // Si es usuario normal, mostrar solo las bicicletas libres
             $bicicletas = Bicicleta::where('region_id', $region_id)
-                                   ->where('estado', 'Libre')
-                                   ->get();
+                ->where('estado', 'Libre')
+                ->get();
         }
 
         // Retornar la vista con las bicicletas, la región, y si tiene un alquiler activo
@@ -56,8 +78,10 @@ class AlquilarController extends Controller
 
         // Verificar si el usuario ya tiene una bicicleta alquilada
         $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
-                                  ->where('estado', 'pendiente')  // O estado 'alquilada'
-                                  ->exists();
+            ->whereHas('bicicleta', function ($query) {
+                $query->where('estado', 'Alquilada');  // Verificar el estado de la bicicleta en la tabla bicicletas
+            })
+            ->exists();
 
         if ($alquilerActivo) {
             return redirect()->back()->with('error', 'Ya tienes una bicicleta alquilada. No puedes alquilar otra.');
@@ -74,7 +98,7 @@ class AlquilarController extends Controller
         Alquilar::create([
             'usuario_id' => $usuario_id,
             'bicicleta_id' => $bicicleta_id,
-            'estado' => 'pendiente',
+            'estado' => 'pendiente',  // Esto está en la tabla de alquileres, pero estado en bicicletas está separado
             'fecha_inicio' => now(),
         ]);
 
@@ -109,8 +133,8 @@ class AlquilarController extends Controller
         // Verificar si el usuario ya tiene una bicicleta alquilada
         $usuario_id = session('usuario_id');
         $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
-                                  ->where('estado', 'pendiente')  // O estado 'alquilada'
-                                  ->exists();
+            ->where('estado', 'pendiente')  // O estado 'alquilada'
+            ->exists();
 
         if ($alquilerActivo) {
             return redirect()->back()->with('error', 'Ya tienes una bicicleta alquilada. No puedes alquilar otra.');
