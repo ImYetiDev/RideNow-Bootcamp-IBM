@@ -34,7 +34,12 @@
             @endif
         </div>
 
-      
+        <div class="container-fluid position-relative d-block p-4">
+           <div class="image">
+            <img src="public/img/untitled-1.jpg">
+            
+           </div>
+        </div>
 
         <footer class="footer fixed-bottom ml-4">
             @include('footer')

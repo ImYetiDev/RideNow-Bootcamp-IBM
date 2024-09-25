@@ -165,6 +165,7 @@ class AlquilarController extends Controller
         }
     }
 
+
     /**
      * Crear un nuevo registro de alquiler.
      */

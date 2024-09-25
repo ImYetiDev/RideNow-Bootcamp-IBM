@@ -35,7 +35,7 @@
                             
                             <!-- Mostrar botón de alquilar solo si el usuario no tiene bicicleta alquilada -->
                             @if (!$alquilerActivo)
-                                <a href="{{ route('alquilar.bicicleta', $bicicleta->id) }}" class="btn btn-primary">Alquilar</a>
+                                <a href="{{ route('alquilar.formulario', $bicicleta->id) }}" class="btn btn-primary">Alquilar</a>
                             @else
                                 <button class="btn btn-secondary" disabled>No Disponible</button>
                             @endif
