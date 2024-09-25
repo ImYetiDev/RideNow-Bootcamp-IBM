@@ -88,14 +88,19 @@ class AlquilarController extends Controller
     {
         try {
             Alquilar::create([
-                'usuario_id' => session('usuario_id'), 
+                'usuario_id' => session('usuario_id'),
                 'bicicleta_id' => $request->bicicleta_id,
                 'estacion_inicio_id' => $request->estacion_inicio_id,
-                'estacion_fin_id' => $request->estacion_fin_id, 
+                'estacion_fin_id' => $request->estacion_fin_id,
                 'fecha_inicio' => $request->fecha_inicio,
                 'fecha_fin' => $request->fecha_fin,
             ]);
-    
+
+            // Actualizar el estado de la bicicleta a 'Alquilada'
+            $bicicleta = Bicicleta::find($request->bicicleta_id);
+            $bicicleta->estado = 'Alquilada';
+            $bicicleta->save();
+
             return redirect()->route('alquilar', $request->bicicleta_id)->with('success', 'Alquiler registrado correctamente.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error al registrar el alquiler: ' . $e->getMessage());
