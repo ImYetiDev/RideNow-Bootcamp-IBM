@@ -10,7 +10,7 @@ class CreateBicicletasTable extends Migration
     {
         Schema::create('bicicletas', function (Blueprint $table) {
             $table->id();
-            $table->string('marca', 50)->unique();
+            $table->string('marca', 50);
             $table->string('color', 50);
             $table->integer('estado')->default(1);  // 1 = Disponible, 0 = No disponible
             $table->integer('precio');

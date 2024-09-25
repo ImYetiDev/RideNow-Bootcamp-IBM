@@ -99,4 +99,11 @@ class BicicletasController extends Controller{
         $bicicleta->delete();
         return redirect()->route('bicicleta.index'); //
     }
+    public function ubicaciones()
+    {
+        // Suponemos que la tabla 'bicicletas' tiene columnas 'latitude' y 'longitude'
+        $bicicletas = Bicicleta::select('id', 'latitude', 'longitude')->get();
+
+        return response()->json($bicicletas);
+    }
 }

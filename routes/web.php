@@ -8,6 +8,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BicicletasController;
 
 
 /*
@@ -35,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Ruta para guardar el evento en la base de datos (formulario de creación)
     Route::post('/eventos.store', [EventoController::class, 'store'])->name('eventos.store');
+    
+    Route::get('/bicicletas/ubicaciones', [BicicletasController::class, 'ubicaciones'])->name('bicicletas.ubicaciones');
 });
 
 

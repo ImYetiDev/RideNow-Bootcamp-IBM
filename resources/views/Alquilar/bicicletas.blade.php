@@ -6,8 +6,8 @@
         @else
             <div class="row">
                 @foreach($bicicletas as $bicicleta)
-                    <div class="col-md-4">
-                        <div class="card mb-3">
+                    <div class="col-md-4 bg-secondary">
+                        <div class="card mb-3 bg-secondary">
                             <div class="card-header">{{ $bicicleta->nombre }}</div>
                             <div class="card-body">
                                 <p>Precio: {{ $bicicleta->precio }}</p>
