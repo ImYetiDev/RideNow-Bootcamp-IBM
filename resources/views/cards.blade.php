@@ -28,7 +28,7 @@
              </div>
          </div>
 
-         <div class="col-sm-6 col-xl-3" onclick="location.href='{{ route('bicicletas.map') }}'">
+         <!-- <div class="col-sm-6 col-xl-3" onclick="location.href='{{ route('bicicletas.map') }}'">
              <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-2"
                  id="bloque">
                  <i class="bi bi-map fa-3x text-success"
@@ -39,7 +39,7 @@
                      <h6 class="mb-0">Mapa</h6>
                  </div>
              </div>
-         </div>
+         </div> -->
 
          <div class="col-sm-6 col-xl-3" onclick="location.href='{{ route('bicicletas.maps') }}'">
              <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-2"
@@ -49,7 +49,7 @@
                  <div class="ms-3 w-50">
                      <p class="mb-2"
                          id="bloqueText">Mirar</p>
-                     <h6 class="mb-0">Mapa2</h6>
+                     <h6 class="mb-0">Mapa</h6>
                  </div>
              </div>
          </div>

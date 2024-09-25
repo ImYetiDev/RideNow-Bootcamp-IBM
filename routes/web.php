@@ -29,9 +29,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/eventos/{evento_id}', [EventoController::class, 'show'])->name('eventos.show');
     Route::post('/eventos/participar/{evento_id}', [EventoController::class, 'participar'])->name('eventos.participar');
-    Route::delete('/eventos/{evento_id}', [EventoController::class, 'destroy'])->name('eventos.destroy');
     Route::get('/eventos/{evento_id}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
     Route::put('/eventos/{evento_id}', [EventoController::class, 'update'])->name('eventos.update');
+    Route::delete('/eventos/{evento_id}', [EventoController::class, 'destroy'])->name('eventos.destroy');
 
 
     Route::get('/alquilar/bicicleta/{bicicleta_id}', [AlquilarController::class, 'alquilarBicicleta'])->name('alquilar.bicicleta');

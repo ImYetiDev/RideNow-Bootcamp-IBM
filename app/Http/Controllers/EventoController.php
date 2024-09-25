@@ -77,18 +77,6 @@ class EventoController extends Controller
         }
     }
 
-    // Eliminar el evento (solo administradores)
-    public function destroy($evento_id)
-    {
-        // Verificar si el usuario es administrador
-        if (session('tipo_usuario') == 3) {
-            $evento = Evento::findOrFail($evento_id);
-            $evento->delete();
-            return redirect()->route('eventos.index')->with('success', 'Evento eliminado correctamente.');
-        } else {
-            return redirect()->back()->with('error', 'No tienes permiso para eliminar este evento.');
-        }
-    }
 
     // Mostrar el formulario para editar el evento
     public function edit($evento_id)
@@ -96,14 +84,14 @@ class EventoController extends Controller
         // Obtener el evento por su ID
         $evento = Evento::findOrFail($evento_id);
 
-        // Retornar la vista con los detalles del evento para editar
+        // Retornar la vista para editar el evento
         return view('eventos.edit', compact('evento'));
     }
 
-    // Guardar los cambios del evento
+    // Actualizar los datos del evento
     public function update(Request $request, $evento_id)
     {
-        // Validar los datos que se están editando
+        // Validar los datos ingresados
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -120,7 +108,19 @@ class EventoController extends Controller
             'ubicacion' => $request->ubicacion,
         ]);
 
-        // Redirigir con mensaje de éxito
-        return redirect()->route('eventos.show', $evento_id)->with('success', 'Evento actualizado correctamente.');
+        // Redirigir a la página de detalles del evento
+        return redirect()->route('eventos.show', $evento->id)->with('warning', 'Evento actualizado correctamente.');
+    }
+
+    // Eliminar un evento
+    public function destroy($evento_id)
+    {
+        // Obtener el evento y eliminarlo
+        $evento = Evento::findOrFail($evento_id);
+        $evento->delete();
+
+        // Redirigir a la lista de eventos (o cualquier otra página)
+        return redirect('/')
+                ->with('danger', 'Evento eliminado con éxito.');
     }
 }

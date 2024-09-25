@@ -1,4 +1,4 @@
-@section('title', 'Eventos')
+@section('title', 'Mapa')
 @include('header')
 
 <body>
@@ -24,7 +24,7 @@
             <h1>Mapa</h1>
 
             <!-- Mapa de Google -->
-            <div id="map" style="height: 350px; width: 100%;"></div>
+            <div id="map" style="height: 320px; width: 100%;"></div>
         </div>
 
         <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
@@ -134,7 +134,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="z-index: 1050;"><i class="bi bi-arrow-up"></i></a>
     </div>
 
     <!-- JavaScript Libraries -->

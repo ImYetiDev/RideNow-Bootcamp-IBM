@@ -22,33 +22,33 @@ class AlquilarController extends Controller
         return view('alquilar.index', compact('Alquilar', 'Bicicletas', 'Regionales'));
     }
 
-    public function mostrarBicicletas($region_id)
-    {
-        // Obtener la región seleccionada
-        $region = Regionales::find($region_id);
+        public function mostrarBicicletas($region_id)
+        {
+            // Obtener la región seleccionada
+            $region = Regionales::find($region_id);
 
-        // Verificar si la región existe
-        if (!$region) {
-            return abort(404, 'Región no encontrada');
+            // Verificar si la región existe
+            if (!$region) {
+                return abort(404, 'Región no encontrada');
+            }
+
+            // Obtener el tipo de usuario desde la sesión
+            $tipoUsuario = session('tipo_usuario');
+
+            // Verificar el tipo de usuario
+            if ($tipoUsuario == 3) {
+                // Si es administrador, mostrar todas las bicicletas
+                $bicicletas = Bicicleta::where('region_id', $region_id)->get();
+            } else {
+                // Si es usuario normal, mostrar solo las bicicletas con estado 'Libre'
+                $bicicletas = Bicicleta::where('region_id', $region_id)
+                    ->where('estado', 'Libre')  // Filtrar por el estado "Libre"
+                    ->get();
+            }
+
+            // Retornar la vista con las bicicletas y la región
+            return view('alquilar.bicicletas', compact('bicicletas', 'region'));
         }
-
-        // Obtener el tipo de usuario desde la sesión
-        $tipoUsuario = session('tipo_usuario');
-
-        // Verificar el tipo de usuario
-        if ($tipoUsuario == 3) {
-            // Si es administrador, mostrar todas las bicicletas
-            $bicicletas = Bicicleta::where('region_id', $region_id)->get();
-        } else {
-            // Si es usuario normal, mostrar solo las bicicletas con estado 'Libre'
-            $bicicletas = Bicicleta::where('region_id', $region_id)
-                ->where('estado', 'Libre')  // Filtrar por el estado "Libre"
-                ->get();
-        }
-
-        // Retornar la vista con las bicicletas y la región
-        return view('alquilar.bicicletas', compact('bicicletas', 'region'));
-    }
 
 
 

@@ -1,109 +1,57 @@
 @section('title', 'Editar Evento')
+
 @include('header')
 
 <body>
-
     @include('sidebar')
-
-
-    @section('tabla', 'Editar Evento')
     @include('navbar')
 
-    @include('cards')
-    
-    <script>
-            function cambiarFondo(selected) {
-                var selected = document.getElementById(selected);
+    <div class="container-fluid p-4">
+        <h1>Editar Evento - {{ $evento->nombre }}</h1>
 
-                // Cambiar el fondo del elemento
-                selected.classList.remove('bg-secondary');
-                selected.classList.add('bg-success');
-            }
+        <!-- Mostrar mensajes de éxito o error -->
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-            function cambiarIcono(icon) {
-                var icon = document.getElementById(icon);
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
-                // Cambiar el icono de color
-                icon.classList.remove('text-success');
-                icon.classList.add('text-secondary');
-            }
+        <!-- Formulario para editar el evento -->
+        <form action="{{ route('eventos.update', $evento->id) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-            function cambiarTexto(texto) {
-                // Obtener el texto y cambiar su color
-                var texto = document.getElementById(texto);
-                texto.classList.add('text-dark');
-            }
-
-            cambiarFondo('evento');
-            cambiarIcono('eventoIcon');
-            cambiarTexto('eventoText');
-        </script>
-
-    <!-- Recent Sales Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-secondary text-center rounded p-4">
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary rounded h-100 p-4">
-                    <h6 class="mb-4">Formulario Editar Evento</h6>
-                    <form action="{{ route('Evento.update', $evento->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre del Evento</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required value="{{ old('nombre', $evento->nombre) }}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required>{{ old('descripcion', $evento->descripcion) }}</textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="fecha" class="form-label">Fecha</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" required value="{{ old('fecha', $evento->fecha) }}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="hora" class="form-label">Hora</label>
-                            <input type="time" class="form-control" id="hora" name="hora" required value="{{ old('hora', $evento->hora) }}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <input type="text" class="form-control" id="estado" name="estado" required value="{{ old('estado', $evento->estado) }}">
-                        </div>
-
-                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                    </form>
-
-
-                </div>
+            <!-- Campo para editar el nombre del evento -->
+            <div class="form-group mb-3">
+                <label for="nombre">Nombre del Evento</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ $evento->nombre }}" required>
             </div>
-        </div>
+
+            <!-- Campo para editar la descripción del evento -->
+            <div class="form-group mb-3">
+                <label for="descripcion">Descripción</label>
+                <textarea name="descripcion" id="descripcion" class="form-control" required>{{ $evento->descripcion }}</textarea>
+            </div>
+
+            <!-- Campo para editar la fecha del evento -->
+            <div class="form-group mb-3">
+                <label for="fecha">Fecha</label>
+                <input type="date" name="fecha" id="fecha" class="form-control" value="{{ $evento->fecha }}" required>
+            </div>
+
+            <!-- Campo para editar la ubicación del evento -->
+            <div class="form-group mb-3">
+                <label for="ubicacion">Ubicación</label>
+                <input type="text" name="ubicacion" id="ubicacion" class="form-control" value="{{ $evento->ubicacion }}" required>
+            </div>
+
+            <!-- Botón para guardar los cambios -->
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+        </form>
     </div>
 
-
-
-
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
-
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
 </body>
-
-</html>
