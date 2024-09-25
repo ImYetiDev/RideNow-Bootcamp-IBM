@@ -9,6 +9,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BicicletasController;
+use App\Http\Controllers\EstacionController;
 
 
 /*
@@ -32,10 +33,12 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/alquilar/bicicleta/{bicicleta_id}', [AlquilarController::class, 'alquilarBicicleta'])->name('alquilar.bicicleta');
-    
+
     route::get('/alquilar/{region_id}', [AlquilarController::class, 'mostrarBicicletas'])->name('alquilar.show');
-    // Ruta para mostrar el formulario de creación de eventos
-    // Route::post('/create', [EventoController::class, 'create'])->name('eventos.create');
+    Route::get('/alquilar/formulario/{bicicleta_id}', [AlquilarController::class, 'formulario'])->name('alquilar.formulario');
+    Route::post('/alquilar/guardar', [AlquilarController::class, 'guardar'])->name('alquilar.guardar');
+
+    Route::resource('estaciones', EstacionController::class);
 
     // Ruta para guardar el evento en la base de datos (formulario de creación)
     Route::post('/eventos.store', [EventoController::class, 'store'])->name('eventos.store');

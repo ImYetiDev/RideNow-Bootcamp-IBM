@@ -38,10 +38,11 @@
                         <p class="mb-2">Color: <span class="fw-bold">{{ $bicicleta->color }}</span></p>
                         <p class="mb-2">Estado: <span class="{{ $colorClass }}">{{ ucfirst($bicicleta->estado) }}</span></p>
                         @if ($bicicleta->estado == 'Libre')
-                        <a href="{{ route('alquilar.bicicleta', $bicicleta->id) }}" class="btn btn-primary">Alquilar</a>
+                        <a href="{{ route('alquilar.formulario', $bicicleta->id) }}" class="btn btn-primary">Alquilar</a>
                         @else
-                        <button class="btn btn-secondary" disabled>No Libre</button>
+                        <button class="btn btn-secondary" disabled>No Disponible</button>
                         @endif
+
                     </div>
                 </div>
             </div>
@@ -51,23 +52,23 @@
     @endif
 </div>
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-success bg-success btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-success bg-success btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
 </body>
 
 </html>

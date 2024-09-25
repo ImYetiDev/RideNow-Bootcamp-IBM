@@ -7,6 +7,7 @@
 
 @include('cards')
 <br>
+
 <body>
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
@@ -16,9 +17,9 @@
             </div>
         </div>
 
-        
 
-        <div class="container" >
+
+        <div class="container">
             <div class="row">
                 @foreach($Regionales as $dato)
                 <div class="col-md-4 mb-4"> <!-- Ajusta el número de columnas según tus necesidades -->
@@ -39,14 +40,16 @@
 
 
 
-        
+
     </div>
     <!-- Content End -->
-    
-    
+
+
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    @include('footer')
+    <footer class="footer fixed-bottom pr-2">
+        @include('footer')
+    </footer>
     </div>
 
     <!-- JavaScript Libraries -->

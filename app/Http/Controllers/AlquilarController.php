@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Alquilar;
 use App\Models\Bicicleta;
+use App\Models\Estacion;
 use App\Models\Regionales;
 
 class AlquilarController extends Controller
@@ -69,7 +70,41 @@ class AlquilarController extends Controller
         return redirect()->back()->with('success', 'Has alquilado la bicicleta con éxito.');
     }
 
+    // Mostrar formulario para alquilar bicicleta
+    public function formulario($bicicleta_id)
+    {
+        // Obtener la bicicleta seleccionada
+        $bicicleta = Bicicleta::find($bicicleta_id);
 
+        // Obtener todas las estaciones (esto lo puedes modificar según tus necesidades)
+        $estaciones = Estacion::all();
+
+        // Retornar la vista con la bicicleta y las estaciones
+        return view('alquilar.formulario', compact('bicicleta', 'estaciones'));
+    }
+
+    // Guardar los datos del alquiler
+    public function guardar(Request $request)
+    {
+        // Validar los datos del formulario
+        $request->validate([
+            'bicicleta_id' => 'required|exists:bicicletas,id',
+            'estacion_inicio_id' => 'required|exists:estaciones,id',
+            'fecha_inicio' => 'required|date',
+        ]);
+
+        // Crear un nuevo alquiler
+        Alquilar::create([
+            'usuario_id' => session('usuario_id'), // Obtener el usuario logueado desde la sesión
+            'bicicleta_id' => $request->bicicleta_id,
+            'estacion_inicio_id' => $request->estacion_inicio_id,
+            'fecha_inicio' => $request->fecha_inicio,
+            'estado' => 'pendiente',
+        ]);
+
+        // Redirigir al usuario a alguna página (puedes personalizar esto)
+        return redirect()->route('alquilar.show', ['region_id' => $request->region_id])->with('success', 'Alquiler registrado exitosamente.');
+    }
 
 
     /**

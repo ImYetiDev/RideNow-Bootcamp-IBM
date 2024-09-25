@@ -1,4 +1,4 @@
-@section('title', 'Dashboard')
+@section('title', 'RideNow')
 @include('header')
 
 <body>
@@ -16,14 +16,15 @@
 
         @include('cards')
         <div class="container-fluid position-relative d-block p-4">
-        @if(session('nombre'))
-        <p>Bienvenido, {{ session('nombre') }}!</p>
-        <p>Tipo de usuario, {{ session('tipo_usuario_string') }}!</p>
-        @endif
+            @if(session('nombre'))
+            <p>Bienvenido, {{ session('nombre') }}!</p>
+            <p>Tipo de usuario, {{ session('tipo_usuario_string') }}!</p>
+            @endif
         </div>
 
-        @include('footer')
-
+        <footer class="ooter fixed-bottom bg-dark text-white py-3">
+            @include('footer')
+        </footer>
     </div>
 
 

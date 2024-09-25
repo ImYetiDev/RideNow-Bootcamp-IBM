@@ -33,7 +33,7 @@
                  id="bloque">
                  <i class="bi bi-map fa-3x text-success"
                      id="biciIcon"></i>
-                 <div class="ms-3">
+                 <div class="ms-3 w-50">
                      <p class="mb-2"
                          id="bloqueText">Mirar</p>
                      <h6 class="mb-0">Mapa</h6>
