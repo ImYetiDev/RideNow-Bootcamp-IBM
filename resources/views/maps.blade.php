@@ -20,74 +20,61 @@
 
         @include('cards')
 
-        <div class="container-fluid position-relative d-block p-4">
+        <div class="container-fluid position-relative d-block p-4 mb-4">
             <h1>Mapa</h1>
 
             <!-- Mapa de Google -->
-            <div id="map" class="pb-5 mb-4" style="height: 450px; width: 100%;"></div>
+            <div id="map" style="height: 450px; width: 100%;"></div>
         </div>
 
         <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
         <script>
-            //funciones mapa
-            var map;
-            var markers = [];
+            // Inicializar el mapa
+            var map = L.map('map').setView([3.4516, -76.5320], 13); // Coordenadas de Cali
 
-            // Inicializar el mapa centrado en Cali
-            function initMap() {
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: {
-                        lat: 3.4516,
-                        lng: -76.531985
-                    }, // Cali
-                    zoom: 13
-                });
+            // Añadir el tile layer de OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
-                // Cargar las ubicaciones de las estaciones
-                loadBikeLocations();
+            // Array de ubicaciones de bicicletas (esto es un ejemplo, podrías obtenerlas en tiempo real)
+            var bikeLocations = [{
+                    lat: 3.4372,
+                    lng: -76.5225,
+                    info: 'Bicicleta 1'
+                },
+                {
+                    lat: 3.4613,
+                    lng: -76.5453,
+                    info: 'Bicicleta 2'
+                },
+                {
+                    lat: 3.4501,
+                    lng: -76.5321,
+                    info: 'Bicicleta 3'
+                }
+            ];
+
+            // Función para agregar marcadores al mapa
+            bikeLocations.forEach(function(location) {
+                var marker = L.marker([location.lat, location.lng]).addTo(map);
+                marker.bindPopup(location.info); // Información cuando se haga clic en el marcador
+            });
+
+            // Función para actualizar las ubicaciones de las bicicletas en tiempo real (simulado)
+            function updateBikeLocations(newLocations) {
+                // Aquí puedes actualizar los marcadores, eliminar los antiguos y agregar nuevos
             }
 
-            // Función para cargar las estaciones y agregar marcadores
-            function loadBikeLocations() {
-                fetch('/api/estaciones') // Cambia la URL según tu ruta de API
-                    .then(response => response.json())
-                    .then(estaciones => {
-                        estaciones.forEach(estacion => {
-                            addMarker(estacion);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar las estaciones:', error);
-                    });
-            }
-
-            // Función para agregar un marcador en el mapa para una estación
-            function addMarker(estacion) {
-                var marker = new google.maps.Marker({
-                    position: {
-                        lat: parseFloat(estacion.latitude),
-                        lng: parseFloat(estacion.longitude)
-                    },
-                    map: map,
-                    title: estacion.nombre_estacion
-                });
-
-                var infoWindow = new google.maps.InfoWindow({
-                    content: `<h3>${estacion.nombre_estacion}</h3><p>${estacion.direccion}</p>`
-                });
-
-                marker.addListener('click', function() {
-                    infoWindow.open(map, marker);
-                });
-
-                markers.push(marker);
-            }
+            // Si tienes un servicio que proporciona las ubicaciones en tiempo real, podrías usar fetch() o WebSockets para actualizar
         </script>
+
         </head>
 
         <body>
-            <h1>Mapa de Estaciones</h1>
-            <div id="map" style="height: 500px; width: 100%;"></div>
+            <!-- <h1>Mapa 2</h1>
+            <div id="map" style="height: 600px;"></div> -->
+
         </body>
 
         </html>

@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/bicicletas/ubicaciones', [BicicletasController::class, 'ubicaciones'])->name('bicicletas.ubicaciones');
     Route::get('/bicicletas/map', [BicicletasController::class, 'map'])->name('bicicletas.map');
+    Route::get('/bicicletas/maps', [BicicletasController::class, 'maps'])->name('bicicletas.maps');
 });
 
 

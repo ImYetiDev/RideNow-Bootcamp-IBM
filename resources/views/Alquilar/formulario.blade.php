@@ -6,6 +6,33 @@
     @include('sidebar')
     @include('navbar')
     @include('cards')
+    <script>
+        function cambiarFondo(selected) {
+            var selected = document.getElementById(selected);
+
+            // Cambiar el fondo del elemento
+            selected.classList.remove('bg-secondary');
+            selected.classList.add('bg-success');
+        }
+
+        function cambiarIcono(icon) {
+            var icon = document.getElementById(icon);
+
+            // Cambiar el icono de color
+            icon.classList.remove('text-success');
+            icon.classList.add('text-secondary');
+        }
+
+        function cambiarTexto(texto) {
+            // Obtener el texto y cambiar su color
+            var texto = document.getElementById(texto);
+            texto.classList.add('text-dark');
+        }
+
+        cambiarFondo('alquiler');
+        cambiarIcono('alquilerIcon');
+        cambiarTexto('alquilerText');
+    </script>
 
     <div class="container-fluid position-relative d-block p-4">
         <h1>Alquilar Bicicleta - {{ $bicicleta->marca }}</h1>
@@ -22,7 +49,7 @@
                     <label for="estacion_inicio_id">Estación de Inicio</label>
                     <select name="estacion_inicio_id" id="estacion_inicio_id" class="form-control" required>
                         @foreach($estaciones as $estacion)
-                            <option value="{{ $estacion->id }}">{{ $estacion->nombre_estacion }}</option>
+                        <option value="{{ $estacion->id }}">{{ $estacion->nombre_estacion }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -33,7 +60,7 @@
                     <select name="estacion_fin_id" id="estacion_fin_id" class="form-control">
                         <option value="">Seleccione la estación de fin (opcional)</option>
                         @foreach($estaciones as $estacion)
-                            <option value="{{ $estacion->id }}">{{ $estacion->nombre_estacion }}</option>
+                        <option value="{{ $estacion->id }}">{{ $estacion->nombre_estacion }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -73,4 +100,5 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
+
 </html>

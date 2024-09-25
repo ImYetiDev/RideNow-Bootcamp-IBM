@@ -7,6 +7,33 @@
 
 
 @include('cards')
+<script>
+    function cambiarFondo(selected) {
+        var selected = document.getElementById(selected);
+
+        // Cambiar el fondo del elemento
+        selected.classList.remove('bg-secondary');
+        selected.classList.add('bg-success');
+    }
+
+    function cambiarIcono(icon) {
+        var icon = document.getElementById(icon);
+
+        // Cambiar el icono de color
+        icon.classList.remove('text-success');
+        icon.classList.add('text-secondary');
+    }
+
+    function cambiarTexto(texto) {
+        // Obtener el texto y cambiar su color
+        var texto = document.getElementById(texto);
+        texto.classList.add('text-dark');
+    }
+
+    cambiarFondo('alquiler');
+    cambiarIcono('alquilerIcon');
+    cambiarTexto('alquilerText');
+</script>
 
 <div class="container">
     <h1>Bicicletas disponibles en {{ $region->nombre }}</h1>
