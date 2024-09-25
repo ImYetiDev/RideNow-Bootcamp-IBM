@@ -75,7 +75,7 @@
 
 
 
-        <footer class="footer fixed-bottom bg-dark text-white py-3">
+        <footer class="footer fixed-bottom">
             @include('footer')
         </footer>
 

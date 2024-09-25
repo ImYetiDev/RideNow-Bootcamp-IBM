@@ -22,7 +22,7 @@
             @endif
         </div>
 
-        <footer class="ooter fixed-bottom bg-dark text-white py-3">
+        <footer class="footer fixed-bottom ml-4">
             @include('footer')
         </footer>
     </div>

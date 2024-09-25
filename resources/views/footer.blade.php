@@ -1,5 +1,5 @@
 <!-- Footer Start -->
-<div class="container-fluid pt-4 px-4 mb-0 w-75">
+<div class="container-fluid pt-4 px-4 mb-0 w-80">
     <div class="bg-secondary rounded-top p-4">
         <div class="row">
             <div class="col-12 col-sm-6 text-center text-sm-start">

@@ -86,26 +86,21 @@ class AlquilarController extends Controller
     // Guardar los datos del alquiler
     public function guardar(Request $request)
     {
-        // Validar los datos del formulario
-        $request->validate([
-            'bicicleta_id' => 'required|exists:bicicletas,id',
-            'estacion_inicio_id' => 'required|exists:estaciones,id',
-            'fecha_inicio' => 'required|date',
-        ]);
-
-        // Crear un nuevo alquiler
-        Alquilar::create([
-            'usuario_id' => session('usuario_id'), // Obtener el usuario logueado desde la sesión
-            'bicicleta_id' => $request->bicicleta_id,
-            'estacion_inicio_id' => $request->estacion_inicio_id,
-            'fecha_inicio' => $request->fecha_inicio,
-            'estado' => 'pendiente',
-        ]);
-
-        // Redirigir al usuario a alguna página (puedes personalizar esto)
-        return redirect()->route('alquilar.show', ['region_id' => $request->region_id])->with('success', 'Alquiler registrado exitosamente.');
+        try {
+            Alquilar::create([
+                'usuario_id' => session('usuario_id'), 
+                'bicicleta_id' => $request->bicicleta_id,
+                'estacion_inicio_id' => $request->estacion_inicio_id,
+                'estacion_fin_id' => $request->estacion_fin_id, 
+                'fecha_inicio' => $request->fecha_inicio,
+                'fecha_fin' => $request->fecha_fin,
+            ]);
+    
+            return redirect()->route('alquilar', $request->bicicleta_id)->with('success', 'Alquiler registrado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al registrar el alquiler: ' . $e->getMessage());
+        }
     }
-
 
     /**
      * Show the form for creating a new resource.

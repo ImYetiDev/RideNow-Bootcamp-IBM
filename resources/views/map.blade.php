@@ -113,7 +113,9 @@
 
 
 
-        @include('footer')
+        <footer class="footer fixed-bottom">
+            @include('footer')
+        </footer>
 
     </div>
     <!-- Content End -->
