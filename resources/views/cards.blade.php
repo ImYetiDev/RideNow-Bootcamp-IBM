@@ -27,6 +27,20 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-sm-6 col-xl-3" onclick="location.href='{{ route('bicicletas.map') }}'"
+                    >
+                        <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4"
+                        id="bloque">
+                        <i class="bi bi-bicycle fa-3x text-success"
+                        id="biciIcon"></i>   
+                                <div class="ms-3">
+                                <p class="mb-2"
+                                id="bloqueText">Mirar</p>
+                                <h6 class="mb-0">Mapa</h6>
+                            </div>
+                        </div>
+                    </div>
                     
                 </div>
             </div>

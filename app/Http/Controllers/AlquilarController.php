@@ -31,11 +31,31 @@ class AlquilarController extends Controller
             return abort(404, 'Región no encontrada');
         }
 
-        // Obtener las bicicletas disponibles en esa región
-        $bicicletas = Bicicleta::where('region_id', $region_id)->get();
+        // Obtener las bicicletas disponibles en esa región con estado "disponible"
+        $bicicletas = Bicicleta::where('region_id', $region_id)
+            ->where('estado', 'Libre')
+            ->get();
 
         // Retornar la vista con las bicicletas y la región
         return view('alquilar.bicicletas', compact('bicicletas', 'region'));
+    }
+
+    public function alquilarBicicleta($bicicleta_id)
+    {
+        // Obtener la bicicleta por su ID
+        $bicicleta = Bicicleta::find($bicicleta_id);
+
+        // Verificar si la bicicleta existe y si está disponible
+        if (!$bicicleta || $bicicleta->estado !== 'Libre') {
+            return redirect()->back()->with('error', 'La bicicleta no está disponible para alquilar.');
+        }
+
+        // Cambiar el estado a 'alquilada'
+        $bicicleta->estado = 'Alquilada';
+        $bicicleta->save();
+
+        // Redirigir a la página anterior con un mensaje de éxito
+        return redirect()->back()->with('success', 'Has alquilado la bicicleta con éxito.');
     }
 
 

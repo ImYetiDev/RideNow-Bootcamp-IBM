@@ -14,6 +14,10 @@ class BicicletasController extends Controller{
         $bicicleta = Bicicleta::all(); // Mostrar todos los eventos disponibles
         return view('bicicleta.index', compact('bicicleta'));
     }
+    public  function map(){
+        
+        return view('map');
+    }
 
     public function mostrarBicicletas($region)
     {

@@ -21,67 +21,71 @@
         @include('cards')
 
         <div class="container-fluid position-relative d-block p-4">
-        @extends('layouts.app')
 
-@section('content')
-    <div class="container">
-        <h1>Ubicación de Bicicletas en Tiempo Real</h1>
+            <div class="container">
+                <h1>Ubicación de Bicicletas en Tiempo Real</h1>
 
-        <!-- Mapa de Google -->
-        <div id="map" style="height: 500px; width: 100%;"></div>
-    </div>
+                <!-- Mapa de Google -->
+                <!-- <div id="map" style="height: 500px; width: 100%;"></div> -->
+            </div>
+        </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFDijGzbbLbz1cKolz8M0IICTSovLb-A8&callback=initMap" async defer></script>
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFDijGzbbLbz1cKolz8M0IICTSovLb-A8&callback=initMap" async defer></script>
 
-    <script>
-        var map;
-        var markers = [];
+        <script>
+            var map;
+            var markers = [];
 
-        function initMap() {
-            // Inicializar el mapa centrado en una ubicación (por ejemplo, Cali)
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 3.4516, lng: -76.531985},  // Coordenadas de Cali
-                zoom: 13
-            });
-
-            // Cargar las ubicaciones de las bicicletas en tiempo real
-            loadBikeLocations();
-        }
-
-        // Función para cargar ubicaciones de bicicletas desde el servidor
-        function loadBikeLocations() {
-            fetch("{{ route('bicicletas.ubicaciones') }}")
-                .then(response => response.json())
-                .then(data => {
-                    clearMarkers();  // Limpiar los marcadores anteriores
-                    data.forEach(bike => {
-                        addMarker(bike);  // Añadir un nuevo marcador por cada bicicleta
-                    });
+            function initMap() {
+                // Inicializar el mapa centrado en una ubicación (por ejemplo, Cali)
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {
+                        lat: 3.4516,
+                        lng: -76.531985
+                    }, // Coordenadas de Cali
+                    zoom: 13
                 });
 
-            // Actualizar las ubicaciones cada 10 segundos
-            setTimeout(loadBikeLocations, 10000);
-        }
+                // Cargar las ubicaciones de las bicicletas en tiempo real
+                loadBikeLocations();
+            }
 
-        // Función para añadir un marcador en el mapa
-        function addMarker(bike) {
-            var marker = new google.maps.Marker({
-                position: {lat: bike.latitude, lng: bike.longitude},
-                map: map,
-                title: 'Bicicleta #' + bike.id
-            });
-            markers.push(marker);
-        }
+            // Función para cargar ubicaciones de bicicletas desde el servidor
+            function loadBikeLocations() {
+                fetch("{{ route('bicicletas.ubicaciones') }}")
+                    .then(response => response.json())
+                    .then(data => {
+                        clearMarkers(); // Limpiar los marcadores anteriores
+                        data.forEach(bike => {
+                            addMarker(bike); // Añadir un nuevo marcador por cada bicicleta
+                        });
+                    });
 
-        // Limpiar los marcadores anteriores
-        function clearMarkers() {
-            markers.forEach(marker => marker.setMap(null));
-            markers = [];
-        }
-    </script>
-@endsection
+                // Actualizar las ubicaciones cada 10 segundos
+                setTimeout(loadBikeLocations, 10000);
+            }
 
-        </div>
+            // Función para añadir un marcador en el mapa
+            function addMarker(bike) {
+                var marker = new google.maps.Marker({
+                    position: {
+                        lat: bike.latitude,
+                        lng: bike.longitude
+                    },
+                    map: map,
+                    title: 'Bicicleta #' + bike.id
+                });
+                markers.push(marker);
+            }
+
+            // Limpiar los marcadores anteriores
+            function clearMarkers() {
+                markers.forEach(marker => marker.setMap(null));
+                markers = [];
+            }
+        </script>
+        @endsection -->
+
 
         <script>
             function cambiarFondo(selected) {

@@ -12,7 +12,7 @@ class CreateBicicletasTable extends Migration
             $table->id();
             $table->string('marca', 50);
             $table->string('color', 50);
-            $table->integer('estado')->default(1);  // 1 = Disponible, 0 = No disponible
+            $table->string('estado');  // 1 = Disponible, 0 = No disponible
             $table->integer('precio');
             $table->unsignedBigInteger('region_id');  // Llave foránea
             $table->string('ubicacion_actual')->nullable();  // Coordenadas o estación

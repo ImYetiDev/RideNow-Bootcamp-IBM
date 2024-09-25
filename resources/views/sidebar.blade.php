@@ -18,6 +18,7 @@
                 <div class="navbar-nav w-100">
                     <a href="" class="nav-item nav-link"><i class="bi bi-house"></i>Alquilar bicicleta</a>
                     <a href="" class="nav-item nav-link"><i class="bi bi-calendar-event"></i>Eventos</a>
+                    <a href="{{ route('bicicletas.map') }}" class="nav-item nav-link"><i class="bi bi-map"></i>Mapa</a>
                 </div>
             </nav>
         </div>

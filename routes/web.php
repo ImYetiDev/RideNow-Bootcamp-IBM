@@ -24,20 +24,24 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('Residente', ResidenteController::class);
     Route::resource('Usuario', UsuarioController::class);
     Route::resource('Alquilar', AlquilarController::class);
+    // Route::resource('map', BicicletasController::class);
 
     Route::get('/eventos/{id}/participar', [EventoController::class, 'participar'])->name('eventos.participar');
     Route::get('/eventos/{id}', [EventoController::class, 'show'])->name('eventos.show');
     Route::get('/eventos/{evento}/inscribirse', [EventoController::class, 'inscribirse'])->name('eventos.inscribirse');
 
 
+    Route::get('/alquilar/bicicleta/{bicicleta_id}', [AlquilarController::class, 'alquilarBicicleta'])->name('alquilar.bicicleta');
+    
     route::get('/alquilar/{region_id}', [AlquilarController::class, 'mostrarBicicletas'])->name('alquilar.show');
     // Ruta para mostrar el formulario de creación de eventos
     // Route::post('/create', [EventoController::class, 'create'])->name('eventos.create');
 
     // Ruta para guardar el evento en la base de datos (formulario de creación)
     Route::post('/eventos.store', [EventoController::class, 'store'])->name('eventos.store');
-    
+
     Route::get('/bicicletas/ubicaciones', [BicicletasController::class, 'ubicaciones'])->name('bicicletas.ubicaciones');
+    Route::get('/bicicletas/map', [BicicletasController::class, 'map'])->name('bicicletas.map');
 });
 
 
