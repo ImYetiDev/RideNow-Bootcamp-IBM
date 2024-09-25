@@ -33,81 +33,90 @@
             var map;
             var markers = [];
 
+            // Inicializar el mapa centrado en Cali
             function initMap() {
-                // Inicializar el mapa centrado en una ubicación (por ejemplo, Cali)
                 map = new google.maps.Map(document.getElementById('map'), {
                     center: {
                         lat: 3.4516,
                         lng: -76.531985
-                    }, // Coordenadas de Cali
+                    }, // Cali
                     zoom: 13
                 });
 
-                // Cargar las ubicaciones de las bicicletas en tiempo real
+                // Cargar las ubicaciones de las estaciones
                 loadBikeLocations();
             }
 
-            // Función para cargar ubicaciones de bicicletas desde el servidor
+            // Función para cargar las estaciones y agregar marcadores
             function loadBikeLocations() {
-                fetch("{{ route('bicicletas.ubicaciones') }}")
+                fetch('/api/estaciones') // Cambia la URL según tu ruta de API
                     .then(response => response.json())
-                    .then(data => {
-                        clearMarkers(); // Limpiar los marcadores anteriores
-                        data.forEach(bike => {
-                            addMarker(bike); // Añadir un nuevo marcador por cada bicicleta
+                    .then(estaciones => {
+                        estaciones.forEach(estacion => {
+                            addMarker(estacion);
                         });
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar las estaciones:', error);
                     });
-
-                // Actualizar las ubicaciones cada 10 segundos
-                setTimeout(loadBikeLocations, 10000);
             }
 
-            // Función para añadir un marcador en el mapa
-            function addMarker(bike) {
+            // Función para agregar un marcador en el mapa para una estación
+            function addMarker(estacion) {
                 var marker = new google.maps.Marker({
                     position: {
-                        lat: bike.latitude,
-                        lng: bike.longitude
+                        lat: parseFloat(estacion.latitude),
+                        lng: parseFloat(estacion.longitude)
                     },
                     map: map,
-                    title: 'Bicicleta #' + bike.id
+                    title: estacion.nombre_estacion
                 });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `<h3>${estacion.nombre_estacion}</h3><p>${estacion.direccion}</p>`
+                });
+
+                marker.addListener('click', function() {
+                    infoWindow.open(map, marker);
+                });
+
                 markers.push(marker);
             }
+        </script>
+        </head>
 
-            // Limpiar los marcadores anteriores
-            function clearMarkers() {
-                markers.forEach(marker => marker.setMap(null));
-                markers = [];
-            }
+        <body>
+            <h1>Mapa de Estaciones</h1>
+            <div id="map" style="height: 500px; width: 100%;"></div>
+        </body>
 
-            //fin funciones mapa
+        </html>
 
-            function cambiarFondo(selected) {
-                var selected = document.getElementById(selected);
+        function cambiarFondo(selected) {
+        var selected = document.getElementById(selected);
 
-                // Cambiar el fondo del elemento
-                selected.classList.remove('bg-secondary');
-                selected.classList.add('bg-success');
-            }
+        // Cambiar el fondo del elemento
+        selected.classList.remove('bg-secondary');
+        selected.classList.add('bg-success');
+        }
 
-            function cambiarIcono(icon) {
-                var icon = document.getElementById(icon);
+        function cambiarIcono(icon) {
+        var icon = document.getElementById(icon);
 
-                // Cambiar el icono de color
-                icon.classList.remove('text-success');
-                icon.classList.add('text-secondary');
-            }
+        // Cambiar el icono de color
+        icon.classList.remove('text-success');
+        icon.classList.add('text-secondary');
+        }
 
-            function cambiarTexto(texto) {
-                // Obtener el texto y cambiar su color
-                var texto = document.getElementById(texto);
-                texto.classList.add('text-dark');
-            }
+        function cambiarTexto(texto) {
+        // Obtener el texto y cambiar su color
+        var texto = document.getElementById(texto);
+        texto.classList.add('text-dark');
+        }
 
-            cambiarFondo('evento');
-            cambiarIcono('eventoIcon');
-            cambiarTexto('eventoText');
+        cambiarFondo('evento');
+        cambiarIcono('eventoIcon');
+        cambiarTexto('eventoText');
         </script>
 
 
