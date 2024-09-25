@@ -7,6 +7,7 @@ use App\Models\Alquilar;
 use App\Models\Bicicleta;
 use App\Models\Estacion;
 use App\Models\Regionales;
+use Carbon\Carbon;
 
 class AlquilarController extends Controller
 {
@@ -98,10 +99,9 @@ class AlquilarController extends Controller
         Alquilar::create([
             'usuario_id' => $usuario_id,
             'bicicleta_id' => $bicicleta_id,
-            'fecha_inicio' => now(),
+            'fecha_inicio',
             'estado' => 'pendiente',
             'tarifa' => 100,
-
         ]);
 
         // Cambiar el estado de la bicicleta a 'Alquilada'
@@ -130,10 +130,21 @@ class AlquilarController extends Controller
     /**
      * Guardar los datos del alquiler.
      */
+
     public function guardar(Request $request)
     {
-        // Verificar si el usuario ya tiene una bicicleta alquilada
+        // Validar los datos del formulario
+        $request->validate([
+            'bicicleta_id' => 'required|exists:bicicletas,id',
+            'estacion_inicio_id' => 'required|exists:estaciones,id',
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+        ]);
+
+        // Obtener el usuario
         $usuario_id = session('usuario_id');
+
+        // Verificar si el usuario ya tiene una bicicleta alquilada
         $alquilerActivo = Alquilar::where('usuario_id', $usuario_id)
             ->where('estado', 'pendiente')  // O estado 'alquilada'
             ->exists();
@@ -143,27 +154,42 @@ class AlquilarController extends Controller
         }
 
         try {
+            // Obtener la bicicleta y su precio
+            $bicicleta = Bicicleta::find($request->bicicleta_id);
+            $precioPorHora = $bicicleta->precio;  // Asumiendo que el campo 'precio' es el precio por hora
+
+            // Convertir las fechas a instancias de Carbon
+            $fechaInicio = Carbon::parse($request->fecha_inicio);
+            $fechaFin = Carbon::parse($request->fecha_fin ?? now());  // Usar 'now()' si no se especifica la fecha de fin
+
+            // Calcular la duración en horas (redondeado hacia arriba)
+            $duracionHoras = ceil($fechaInicio->diffInMinutes($fechaFin) / 60);
+
+            // Calcular la tarifa total
+            $tarifa = $duracionHoras * $precioPorHora;
+
             // Crear el registro de alquiler
             Alquilar::create([
-                'usuario_id' => session('usuario_id'),
+                'usuario_id' => $usuario_id,
                 'bicicleta_id' => $request->bicicleta_id,
                 'estacion_inicio_id' => $request->estacion_inicio_id,
                 'estacion_fin_id' => $request->estacion_fin_id,
-                'fecha_inicio' => $request->fecha_inicio,
-                'fecha_fin' => $request->fecha_fin,
+                'fecha_inicio' => $fechaInicio,
+                'fecha_fin' => $fechaFin,
                 'estado' => 'pendiente',
+                'tarifa' => $tarifa,
             ]);
 
             // Actualizar el estado de la bicicleta a 'Alquilada'
-            $bicicleta = Bicicleta::find($request->bicicleta_id);
             $bicicleta->estado = 'Alquilada';
             $bicicleta->save();
 
-            return redirect('/')->with('success', '¡Felicidades! Alquiler completado con éxito.');
+            return redirect('/')->with('success', '¡Felicidades! Alquiler completado con éxito. Tarifa total: $' . $tarifa);
         } catch (\Exception $e) {
             return redirect('/')->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
         }
     }
+
 
 
     /**

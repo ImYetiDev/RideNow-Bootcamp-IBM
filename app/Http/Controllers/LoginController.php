@@ -48,6 +48,7 @@ class LoginController extends Controller
             $request->session()->put('tipo_usuario', $tipoUsuarioInicialMayuscula);
             // Al autenticar al usuario
             session(['usuario_id' => auth()->user()->id]);
+            session(['estrato' => auth()->user()->estrato]);
 
 
             switch (session('tipo_usuario')) {

@@ -35,10 +35,12 @@
         </div>
 
         <div class="container-fluid position-relative d-block p-4">
-           
-            <img src="public/img/untitled-1.jpg">
-            
-           
+
+            <!-- <img src="{{ asset('img/untitled1.jpg')}}" alt="" style="width: 400px; height: 400px;">
+            <img src="{{ asset('img/user.jpg')}}" alt="" style="width: 400px; height: 400px;"> -->
+
+
+
         </div>
 
         <footer class="footer fixed-bottom ml-4">
