@@ -24,13 +24,26 @@
             <h1>Mapa</h1>
 
             <!-- Mapa de Google -->
-            <div id="map" style="height: 450px; width: 100%;"></div>
+            <div id="map" style="height: 350px; width: 100%;"></div>
         </div>
 
         <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@2.0.0/Control.FullScreen.css" />
+        <script src="https://unpkg.com/leaflet.fullscreen@2.0.0/Control.FullScreen.js"></script>
+
+
         <script>
             // Inicializar el mapa
-            var map = L.map('map').setView([3.4516, -76.5320], 13); // Coordenadas de Cali
+            var map = L.map('map', {
+                fullscreenControl: true, // Activar el control de pantalla completa
+                fullscreenControlOptions: { // Opciones para el control de pantalla completa
+                    position: 'topright' // Posición del botón (puede ser 'topleft', 'topright', 'bottomleft', 'bottomright')
+                }
+            }).setView([3.4516, -76.5320], 13); // Coordenadas de Cali
 
             // Añadir el tile layer de OpenStreetMap
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

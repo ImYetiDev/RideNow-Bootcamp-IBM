@@ -42,57 +42,85 @@ class EventoController extends Controller
         return redirect()->route('Evento.index')->with('success', 'Evento creado correctamente');
     }
 
-    public function participar($id)
+    // Mostrar los detalles del evento
+    // Mostrar los detalles del evento
+    public function show($evento_id)
     {
-        // Aquí obtienes el evento por su ID, asegúrate de que exista
-        $evento = Evento::find($id);
+        // Obtener el evento por su ID
+        $evento = Evento::findOrFail($evento_id);
 
-        if (!$evento) {
-            return redirect()->route('eventos.index')->with('error', 'Evento no encontrado.');
-        }
-
-        // Aquí pones la lógica para participar en el evento
-        // Puedes pasar el evento a la vista, por ejemplo:
-        return view('Eventos.participar', compact('evento'));
+        // Pasar el evento a la vista
+        return view('eventos.show', compact('evento'));
     }
 
-    // Mostrar los detalles de un evento específico
-    public function show($id)
+
+
+    // Guardar la inscripción al evento
+    public function participar($evento_id)
     {
-        // Encuentra el evento por su ID
-        $evento = Evento::find($id);
+        // Obtener el ID del usuario desde la sesión
+        $usuario_id = session('usuario_id');
 
-        // Si el evento no se encuentra, redirige con un mensaje de error
-        if (!$evento) {
-            return redirect('/eventos')->with('error', 'Evento no encontrado');
+        // Verificar si ya está inscrito
+        $participado = Participacion::where('evento_id', $evento_id)->where('usuario_id', $usuario_id)->exists();
+
+        if (!$participado) {
+            // Crear la participación
+            Participacion::create([
+                'evento_id' => $evento_id,
+                'usuario_id' => $usuario_id,
+            ]);
+
+            return redirect()->route('eventos.show', $evento_id)->with('success', 'Te has inscrito correctamente al evento.');
+        } else {
+            return redirect()->route('eventos.show', $evento_id)->with('info', 'Ya estás inscrito en este evento.');
         }
-
-        // Obtén los participantes inscritos en el evento
-        $participantes = $evento->participantes;
-
-        // Retorna la vista 'eventos.show' con los datos del evento y los participantes
-        return view('eventos.show', compact('evento', 'participantes'));
     }
 
-    public function inscribirse(Evento $evento)
+    // Eliminar el evento (solo administradores)
+    public function destroy($evento_id)
     {
-        $usuario = Auth::user();
-
-        // Verificar si el usuario ya está inscrito en el evento
-        $yaInscrito = Participacion::where('evento_id', $evento->id)
-            ->where('usuario_id', $usuario->id)
-            ->exists();
-
-        if ($yaInscrito) {
-            return redirect()->back()->with('error', 'Ya estás inscrito en este evento.');
+        // Verificar si el usuario es administrador
+        if (session('tipo_usuario') == 3) {
+            $evento = Evento::findOrFail($evento_id);
+            $evento->delete();
+            return redirect()->route('eventos.index')->with('success', 'Evento eliminado correctamente.');
+        } else {
+            return redirect()->back()->with('error', 'No tienes permiso para eliminar este evento.');
         }
+    }
 
-        // Crear la inscripción (participación) en el evento
-        Participacion::create([
-            'evento_id' => $evento->id,
-            'usuario_id' => $usuario->id,
+    // Mostrar el formulario para editar el evento
+    public function edit($evento_id)
+    {
+        // Obtener el evento por su ID
+        $evento = Evento::findOrFail($evento_id);
+
+        // Retornar la vista con los detalles del evento para editar
+        return view('eventos.edit', compact('evento'));
+    }
+
+    // Guardar los cambios del evento
+    public function update(Request $request, $evento_id)
+    {
+        // Validar los datos que se están editando
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'fecha' => 'required|date',
+            'ubicacion' => 'required|string|max:255',
         ]);
 
-        return redirect()->back()->with('success', 'Te has inscrito exitosamente en el evento.');
+        // Obtener el evento y actualizar los campos
+        $evento = Evento::findOrFail($evento_id);
+        $evento->update([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'fecha' => $request->fecha,
+            'ubicacion' => $request->ubicacion,
+        ]);
+
+        // Redirigir con mensaje de éxito
+        return redirect()->route('eventos.show', $evento_id)->with('success', 'Evento actualizado correctamente.');
     }
 }

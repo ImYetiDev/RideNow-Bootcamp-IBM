@@ -27,9 +27,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('Alquilar', AlquilarController::class);
     // Route::resource('map', BicicletasController::class);
 
-    Route::get('/eventos/{id}/participar', [EventoController::class, 'participar'])->name('eventos.participar');
-    Route::get('/eventos/{id}', [EventoController::class, 'show'])->name('eventos.show');
-    Route::get('/eventos/{evento}/inscribirse', [EventoController::class, 'inscribirse'])->name('eventos.inscribirse');
+    Route::get('/eventos/{evento_id}', [EventoController::class, 'show'])->name('eventos.show');
+    Route::post('/eventos/participar/{evento_id}', [EventoController::class, 'participar'])->name('eventos.participar');
+    Route::delete('/eventos/{evento_id}', [EventoController::class, 'destroy'])->name('eventos.destroy');
+    Route::get('/eventos/{evento_id}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
+    Route::put('/eventos/{evento_id}', [EventoController::class, 'update'])->name('eventos.update');
 
 
     Route::get('/alquilar/bicicleta/{bicicleta_id}', [AlquilarController::class, 'alquilarBicicleta'])->name('alquilar.bicicleta');
@@ -48,7 +50,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bicicletas/maps', [BicicletasController::class, 'maps'])->name('bicicletas.maps');
 
     Route::get('/bicicletas', [BicicletasController::class, 'getBikeLocations']);
-
 });
 
 
