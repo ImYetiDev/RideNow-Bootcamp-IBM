@@ -1,4 +1,3 @@
-
 @section('title', 'Detalles del Evento')
 @include('header')
 @include('sidebar')
@@ -39,6 +38,25 @@
         <p><strong>ID del Organizador:</strong> {{ $evento->organizador_id }}</p>
         <p><strong>Creado el:</strong> {{ $evento->created_at->format('d/m/Y H:i') }}</p>
         <p><strong>Última Modificación:</strong> {{ $evento->updated_at->format('d/m/Y H:i') }}</p>
+
+        <!-- Verificar si el usuario ya está participando en el evento -->
+        @php
+            $participando = \App\Models\Participacion::where('evento_id', $evento->id)
+                            ->where('usuario_id', session('usuario_id'))
+                            ->exists();
+        @endphp
+
+        <div class="mt-4">
+            <!-- Mostrar el botón de Participar o Cancelar Participación -->
+            <form action="{{ route('eventos.participar', $evento->id) }}" method="POST">
+                @csrf
+                @if ($participando)
+                    <button type="submit" class="btn btn-danger">Cancelar Participación</button>
+                @else
+                    <button type="submit" class="btn btn-primary">Participar en el Evento</button>
+                @endif
+            </form>
+        </div>
 
         <!-- Verificar si el usuario es administrador (tipo_usuario == 3) -->
         @if (session('tipo_usuario') == 3)

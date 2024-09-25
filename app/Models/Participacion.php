@@ -9,32 +9,23 @@ class Participacion extends Model
 {
     use HasFactory;
 
-    // Definir la tabla asociada
     protected $table = 'participaciones';
 
-    // Habilitar asignación masiva
     protected $fillable = [
         'evento_id',
         'usuario_id',
     ];
 
-    // Definir relaciones
-
-    /**
-     * Relación con el modelo Evento.
-     * Una participación pertenece a un evento.
-     */
+    // Relación con Evento
     public function evento()
     {
-        return $this->belongsTo(Evento::class, 'evento_id');
+        return $this->belongsTo(Evento::class);
     }
 
-    /**
-     * Relación con el modelo Usuario.
-     * Una participación pertenece a un usuario.
-     */
+    // Relación con Usuario
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'usuario_id');
+        return $this->belongsTo(User::class);
     }
 }
+

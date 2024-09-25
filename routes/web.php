@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BicicletasController;
 use App\Http\Controllers\EstacionController;
+use App\Http\Controllers\ParticipacionController;
 
 
 /*
@@ -44,6 +45,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Ruta para guardar el evento en la base de datos (formulario de creación)
     Route::post('/eventos.store', [EventoController::class, 'store'])->name('eventos.store');
+
+    // Ruta para participar en un evento
+    Route::post('/eventos/{evento_id}/participar', [ParticipacionController::class, 'participar'])->name('eventos.participar');
 
     Route::get('/bicicletas/ubicaciones', [BicicletasController::class, 'ubicaciones'])->name('bicicletas.ubicaciones');
     Route::get('/bicicletas/map', [BicicletasController::class, 'map'])->name('bicicletas.map');
