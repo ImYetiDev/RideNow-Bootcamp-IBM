@@ -101,11 +101,14 @@ class AlquilarController extends Controller
             $bicicleta->estado = 'Alquilada';
             $bicicleta->save();
 
-            return redirect()->route('alquilar', $request->bicicleta_id)->with('success', 'Alquiler registrado correctamente.');
+            return redirect('/')
+                ->with('success', '¡Felicidades! Alquiler completado con éxito.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error al registrar el alquiler: ' . $e->getMessage());
+            return redirect('/')
+                ->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
         }
     }
+
 
     /**
      * Show the form for creating a new resource.

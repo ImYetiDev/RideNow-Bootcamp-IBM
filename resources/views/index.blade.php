@@ -15,6 +15,18 @@
         @include('navbar')
 
         @include('cards')
+
+
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @elseif (session('error'))
+        <div class="alert alert-error">
+            {{ session('error') }}
+        </div>
+        @endif
+
         <div class="container-fluid position-relative d-block p-4">
             @if(session('nombre'))
             <p>Bienvenido, {{ session('nombre') }}!</p>
