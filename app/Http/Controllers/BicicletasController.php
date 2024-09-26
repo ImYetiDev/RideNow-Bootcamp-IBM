@@ -18,7 +18,6 @@ class BicicletasController extends Controller
     }
     public  function map()
     {
-
         return view('map');
         // return "hola";
     }
@@ -127,4 +126,6 @@ class BicicletasController extends Controller
         $bicicletas = Bicicleta::select('id', 'latitude', 'longitude')->get();
         return response()->json($bicicletas);
     }
+
+    
 }

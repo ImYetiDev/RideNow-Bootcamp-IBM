@@ -66,6 +66,20 @@
                 });
             }
 
+            function addMarkersStationsToMap(stationLocations) {
+                // Limpiar todos los marcadores anteriores (si estás actualizando en tiempo real)
+                map.eachLayer(function(layer) {
+                    if (layer instanceof L.Marker) {
+                        map.removeLayer(layer);
+                    }
+                });
+
+                stationLocations.forEach(function(Location) {
+                    var marker = L.marker([Location.latitude, Location.longitude]).addTo(map);
+                    marker.bindPopup("Nombre estación: " + Location.nombre_estacion); // Mostrar el ID de la bicicleta
+                });
+            }
+
             // Función para obtener ubicaciones de las bicicletas desde la base de datos
             function fetchBikeLocations() {
                 fetch('/bicicletas') // Asegúrate de tener un endpoint en tu servidor que devuelva las ubicaciones de las bicicletas en JSON
@@ -77,9 +91,19 @@
                     .catch(error => console.error('Error al obtener las ubicaciones:', error));
             }
 
+            function fetchStationLocations() {
+                fetch('/estaciones') // Asegúrate de tener un endpoint en tu servidor que devuelva las ubicaciones de las bicicletas en JSON
+                    .then(response => response.json())
+                    .then(data => {
+                        // Llamar a la función para agregar marcadores usando los datos recibidos
+                        addMarkersToMap(data);
+                    })
+                    .catch(error => console.error('Error al obtener las ubicaciones:', error));
+            }
+
             // Llamar a la función para cargar las ubicaciones de las bicicletas al cargar la página
             fetchBikeLocations();
-
+            fetchStationLocations();
             // Si quieres actualizar las ubicaciones en tiempo real, puedes hacer una llamada repetida con un intervalo
             setInterval(fetchBikeLocations, 30000); // Actualizar cada 30 segundos (puedes ajustar el intervalo según sea necesario)
         </script>

@@ -74,4 +74,11 @@ class EstacionController extends Controller
 
         return redirect()->route('estaciones.index')->with('success', 'Estación eliminada correctamente.');
     }
+
+    public function getStationLocations()
+    {
+        // Supongamos que tienes un modelo "Bicicleta" con latitud y longitud almacenados
+        $estaciones = Estacion::select('nombre_estacion', 'latitud', 'longitud')->get();
+        return response()->json($estaciones);
+    }
 }
