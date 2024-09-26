@@ -277,4 +277,25 @@ class AlquilarController extends Controller
         $Alquilar->delete();
         return redirect()->route('Alquilar.index');
     }
+
+    public function devolver($alquiler_id)
+    {
+        // Obtener el alquiler
+        $alquiler = Alquilar::findOrFail($alquiler_id);
+
+        // Verificar que el alquiler pertenece al usuario logueado
+        if ($alquiler->usuario_id !== session('usuario_id')) {
+            return redirect()->back()->with('error', 'No tienes permiso para devolver esta bicicleta.');
+        }
+
+        // Cambiar el estado de la bicicleta a 'Libre'
+        $bicicleta = Bicicleta::find($alquiler->bicicleta_id);
+        $bicicleta->estado = 'Libre';
+        $bicicleta->save();
+
+        // Eliminar el registro del alquiler
+        $alquiler->delete();
+
+        return redirect()->route('Alquilar.index')->with('success', 'Bicicleta devuelta con éxito.');
+    }
 }

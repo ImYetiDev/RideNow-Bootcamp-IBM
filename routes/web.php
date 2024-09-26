@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
     route::get('/alquilar/{region_id}', [AlquilarController::class, 'mostrarBicicletas'])->name('alquilar.show');
     Route::get('/alquilar/formulario/{bicicleta_id}', [AlquilarController::class, 'formulario'])->name('alquilar.formulario');
     Route::post('/alquilar/guardar', [AlquilarController::class, 'guardar'])->name('alquilar.guardar');
+    Route::delete('/alquilar/devolver/{alquiler_id}', [AlquilarController::class, 'devolver'])->name('alquilar.devolver');
+
 
     Route::resource('estaciones', EstacionController::class);
 
