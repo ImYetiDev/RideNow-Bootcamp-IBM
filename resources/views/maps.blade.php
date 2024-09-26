@@ -35,7 +35,6 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@2.0.0/Control.FullScreen.css" />
         <script src="https://unpkg.com/leaflet.fullscreen@2.0.0/Control.FullScreen.js"></script>
 
-
         <script>
             // Inicializar el mapa
             var map = L.map('map', {
@@ -50,55 +49,61 @@
                 attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
+            // Definir íconos personalizados
+            var bikeIcon = L.icon({
+                iconUrl: '/icons/bicycle.svg', // Coloca aquí la URL del ícono de bicicleta
+                iconSize: [32, 32], // Tamaño del icono
+                iconAnchor: [16, 32], // Punto de anclaje del ícono
+                popupAnchor: [0, -32] // Punto donde se mostrará el popup
+            });
+
+            var stationIcon = L.icon({
+                iconUrl: '/icons/house.svg', // Coloca aquí la URL del ícono de estación (hotel)
+                iconSize: [32, 32], // Tamaño del icono
+                iconAnchor: [16, 32], // Punto de anclaje del ícono
+                popupAnchor: [0, -32] // Punto donde se mostrará el popup
+            });
+
             // Función para agregar marcadores al mapa
-            function addMarkersToMap(bikeLocations) {
-                // Limpiar todos los marcadores anteriores (si estás actualizando en tiempo real)
+            function addMarkersToMap(locations, iconType) {
+                // Limpiar todos los marcadores anteriores
                 map.eachLayer(function(layer) {
                     if (layer instanceof L.Marker) {
                         map.removeLayer(layer);
                     }
                 });
 
-                // Agregar cada ubicación de bicicleta como un marcador en el mapa
-                bikeLocations.forEach(function(location) {
-                    var marker = L.marker([location.latitude, location.longitude]).addTo(map);
-                    marker.bindPopup("Bicicleta ID: " + location.id); // Mostrar el ID de la bicicleta
-                });
-            }
-
-            function addMarkersStationsToMap(stationLocations) {
-                // Limpiar todos los marcadores anteriores (si estás actualizando en tiempo real)
-                map.eachLayer(function(layer) {
-                    if (layer instanceof L.Marker) {
-                        map.removeLayer(layer);
-                    }
-                });
-
-                stationLocations.forEach(function(Location) {
-                    var marker = L.marker([Location.latitude, Location.longitude]).addTo(map);
-                    marker.bindPopup("Nombre estación: " + Location.nombre_estacion); // Mostrar el ID de la bicicleta
+                // Agregar cada ubicación como un marcador en el mapa
+                locations.forEach(function(location) {
+                    var marker = L.marker([location.latitude, location.longitude], {
+                        icon: iconType
+                    }).addTo(map);
+                    var popupContent = iconType === bikeIcon ? "Bicicleta ID: " + location.id : "Nombre estación: " + location.nombre_estacion;
+                    marker.bindPopup(popupContent); // Mostrar el ID de la bicicleta o nombre de la estación
                 });
             }
 
             // Función para obtener ubicaciones de las bicicletas desde la base de datos
             function fetchBikeLocations() {
-                fetch('/bicicletas') // Asegúrate de tener un endpoint en tu servidor que devuelva las ubicaciones de las bicicletas en JSON
+                fetch('/bicicletas') // Endpoint en tu servidor que devuelva las ubicaciones de las bicicletas en JSON
                     .then(response => response.json())
                     .then(data => {
-                        // Llamar a la función para agregar marcadores usando los datos recibidos
-                        addMarkersToMap(data);
+                        // Llamar a la función para agregar marcadores de bicicletas
+                        addMarkersToMap(data, bikeIcon);
                     })
-                    .catch(error => console.error('Error al obtener las ubicaciones:', error));
+                    .catch(error => console.error('Error al obtener las ubicaciones de bicicletas:', error));
             }
 
+            // Función para obtener ubicaciones de las estaciones desde la base de datos
             function fetchStationLocations() {
-                fetch('/estaciones') // Asegúrate de tener un endpoint en tu servidor que devuelva las ubicaciones de las bicicletas en JSON
+                fetch('/estaciones') // Endpoint en tu servidor que devuelva las ubicaciones de las estaciones en JSON
                     .then(response => response.json())
                     .then(data => {
+                        console.log('Datos de las estaciones:', data); // Verifica la respuesta aquí
                         // Llamar a la función para agregar marcadores usando los datos recibidos
-                        addMarkersToMap(data);
+                        addMarkersToMap(data, stationIcon);
                     })
-                    .catch(error => console.error('Error al obtener las ubicaciones:', error));
+                    .catch(error => console.error('Error al obtener las ubicaciones de estaciones:', error));
             }
 
             // Llamar a la función para cargar las ubicaciones de las bicicletas al cargar la página
@@ -106,6 +111,7 @@
             fetchStationLocations();
             // Si quieres actualizar las ubicaciones en tiempo real, puedes hacer una llamada repetida con un intervalo
             setInterval(fetchBikeLocations, 30000); // Actualizar cada 30 segundos (puedes ajustar el intervalo según sea necesario)
+            setInterval(fetchStationLocations, 30000); // Actualizar las estaciones cada 30 segundos
         </script>
 
 

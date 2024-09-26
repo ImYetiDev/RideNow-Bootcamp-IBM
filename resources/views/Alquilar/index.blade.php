@@ -27,6 +27,7 @@
     cambiarIcono('alquilerIcon');
     cambiarTexto('alquilerText');
 </script>
+
 <br>
 
 <body>
@@ -38,47 +39,37 @@
         </div>
 
         <div class="container">
-            <h1>Mis Alquileres</h1>
-            
-            <!-- Si el usuario tiene una bicicleta alquilada -->
+            <!-- Mostrar mensaje si el usuario ya tiene una bicicleta alquilada -->
             @if ($alquilerActivo)
-                <div class="alert alert-info">
-                    <h4>Tienes una bicicleta alquilada:</h4>
+                <div class="alert alert-warning">
+                    <h4>No puedes alquilar una bicicleta porque ya tienes una alquilada.</h4>
+                    <p><strong>Bicicleta Alquilada:</strong></p>
                     <p><strong>Marca:</strong> {{ $alquilerActivo->bicicleta->marca }}</p>
                     <p><strong>Color:</strong> {{ $alquilerActivo->bicicleta->color }}</p>
-                    <p><strong>Fecha de inicio:</strong> {{ $alquilerActivo->fecha_inicio }}</p>
-
-                    <!-- Botón para devolver la bicicleta -->
-                    <form action="{{ route('alquilar.devolver', $alquilerActivo->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Devolver Bicicleta</button>
-                    </form>
-                </div>
-            @else
-                <h4>No tienes ninguna bicicleta alquilada.</h4>
-
-                <!-- Mostrar bicicletas disponibles para alquilar -->
-                <h4>Bicicletas Disponibles:</h4>
-                <div class="row">
-                    @foreach ($bicicletasDisponibles as $bicicleta)
-                        <div class="col-md-4">
-                            <div class="card mb-4 bg-secondary">
-                                <div class="card-header">{{ $bicicleta->marca }}</div>
-                                <div class="card-body">
-                                    <p>Precio: {{ $bicicleta->precio }}</p>
-                                    <p>Color: {{ $bicicleta->color }}</p>
-                                    <a href="{{ route('alquilar.formulario', $bicicleta->id) }}" class="btn btn-primary">Alquilar</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
                 </div>
             @endif
+
+            <!-- Mostrar las regionales disponibles -->
+            <div class="row">
+                @foreach($Regionales as $dato)
+                    <div class="col-md-4 mb-4">
+                        <div class="card bg-secondary">
+                            <div class="card-header">
+                                <h3 class="text-success">{{ $dato->nombre }}</h3>
+                            </div>
+                            <div class="card-body">
+                                <a href="{{ route('alquilar.show', $dato->id) }}" class="text-success">Ver bicicletas</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="z-index: 1050;"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="z-index: 1050;">
+        <i class="bi bi-arrow-up"></i>
+    </a>
     <footer class="footer fixed-bottom pr-2">
         @include('footer')
     </footer>

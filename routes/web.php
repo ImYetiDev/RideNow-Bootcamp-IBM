@@ -56,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bicicletas/maps', [BicicletasController::class, 'maps'])->name('bicicletas.maps');
 
     Route::get('/bicicletas', [BicicletasController::class, 'getBikeLocations']);
+    Route::get('/estaciones', [EstacionController::class, 'getStationLocations']);
 });
 
 

@@ -6,23 +6,37 @@
     @include('navbar')
 
     <div class="container-fluid p-4">
-        <h1>Bicicletas Disponibles</h1>
+        <h1>Bicicletas Disponibles en {{ $region->nombre }}</h1>
 
-        <!-- Mostrar mensaje de error si el usuario ya tiene una bicicleta alquilada -->
-        @if (session('error'))
+        <!-- Mostrar mensaje de éxito o error -->
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @elseif (session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
         @endif
 
-        <!-- Mostrar un mensaje si el usuario tiene una bicicleta alquilada -->
+        <!-- Mostrar la bicicleta alquilada si el usuario tiene una -->
         @if ($alquilerActivo)
-            <div class="alert alert-warning">
-                Ya tienes una bicicleta alquilada. No puedes alquilar otra hasta que devuelvas la actual.
+            <div class="alert alert-info">
+                <h4>Tienes una bicicleta alquilada:</h4>
+                <p><strong>Marca:</strong> {{ $alquilerActivo->bicicleta->marca }}</p>
+                <p><strong>Color:</strong> {{ $alquilerActivo->bicicleta->color }}</p>
+                <p><strong>Fecha de inicio:</strong> {{ $alquilerActivo->fecha_inicio }}</p>
+
+                <!-- Botón para devolver la bicicleta -->
+                <form action="{{ route('alquilar.devolver', $alquilerActivo->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Devolver Bicicleta</button>
+                </form>
             </div>
         @endif
 
-        <!-- Listado de bicicletas disponibles -->
+        <!-- Listado de bicicletas disponibles para alquilar -->
         <div class="row">
             @foreach($bicicletas as $bicicleta)
                 <div class="col-md-4">
