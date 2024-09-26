@@ -156,9 +156,9 @@
                 texto.classList.add('text-dark');
             }
 
-            cambiarFondo('evento');
-            cambiarIcono('eventoIcon');
-            cambiarTexto('eventoText');
+            cambiarFondo('map');
+            cambiarIcono('mapIcon');
+            cambiarTexto('mapText');
         </script>
 
 

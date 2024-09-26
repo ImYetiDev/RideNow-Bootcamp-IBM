@@ -14,6 +14,7 @@
         @include('sidebar')
 
         @include('navbar')
+        @include('cards')
 
         <div class="container-fluid position-relative d-block p-4">
             <h1 class="text-white">Eventos Disponibles</h1>
