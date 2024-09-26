@@ -36,9 +36,9 @@
 
     <div class="container d-flex justify-content-center align-items-center vh-100 bg-dark">
     <div class="w-50 p-4 bg-secondary rounded shadow">    
-    <h1>Alquilar Bicicleta - {{ $bicicleta->marca }}</h1>
+    <h1 class="pt-0">Alquilar Bicicleta - {{ $bicicleta->marca }}</h1>
 
-        <div class="w-25">
+        
             <form action="{{ route('alquilar.guardar') }}" method="POST">
                 @csrf
 
@@ -47,8 +47,8 @@
 
                 <!-- Estación de inicio -->
                 <div class="form-group mb-3">
-                    <label for="estacion_inicio_id">Estación de Inicio</label>
-                    <select name="estacion_inicio_id" id="estacion_inicio_id" class="form-control" required>
+                    <label for="estacion_inicio_id" class="form-label text-white">Estación de Inicio</label>
+                    <select name="estacion_inicio_id" id="estacion_inicio_id" class="form-control bg-light text-white" required>
                         @foreach($estaciones as $estacion)
                         <option value="{{ $estacion->id }}">{{ $estacion->nombre_estacion }}</option>
                         @endforeach
@@ -57,8 +57,8 @@
 
                 <!-- Estación de fin -->
                 <div class="form-group mb-3">
-                    <label for="estacion_fin_id">Estación de Fin</label>
-                    <select name="estacion_fin_id" id="estacion_fin_id" class="form-control">
+                    <label for="estacion_fin_id" class="form-label text-white">Estación de Fin</label>
+                    <select name="estacion_fin_id" id="estacion_fin_id" class="form-control bg-light text-white">
                         <option value="">Seleccione la estación de fin (opcional)</option>
                         @foreach($estaciones as $estacion)
                         <option value="{{ $estacion->id }}">{{ $estacion->nombre_estacion }}</option>
@@ -68,14 +68,14 @@
 
                 <!-- Fecha de inicio -->
                 <div class="form-group mb-3">
-                    <label for="fecha_inicio">Fecha de Inicio</label>
-                    <input type="datetime-local" name="fecha_inicio" id="fecha_inicio" class="form-control" required>
+                    <label for="fecha_inicio" class="form-label text-white">Fecha de Inicio</label>
+                    <input type="datetime-local" name="fecha_inicio" id="fecha_inicio" class="form-control bg-light text-white" required>
                 </div>
 
                 <!-- Fecha de fin (opcional) -->
                 <div class="form-group mb-3">
-                    <label for="fecha_fin">Fecha de Fin (opcional)</label>
-                    <input type="datetime-local" name="fecha_fin" id="fecha_fin" class="form-control">
+                    <label for="fecha_fin" class="form-label text-white">Fecha de Fin (opcional)</label>
+                    <input type="datetime-local" name="fecha_fin" id="fecha_fin" class="form-control bg-light text-white">
                 </div>
 
                 <!-- Botón para confirmar el alquiler -->
