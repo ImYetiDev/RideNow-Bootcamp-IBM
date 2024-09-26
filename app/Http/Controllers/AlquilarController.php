@@ -198,13 +198,13 @@ class AlquilarController extends Controller
             $bicicleta->save();
 
             // Retornar con el mensaje de éxito mostrando el desglose de la tarifa y el descuento
-            return redirect('Alquilar')->with('success', '¡Alquiler completado con éxito! 
+            return redirect('/')->with('success', '¡Alquiler completado con éxito! 
                  Tarifa original: $' . number_format($tarifa, 2) .
                 '. Descuento aplicado: $' . number_format($montoDescuento, 2) .
                 '. Total a pagar: $' . number_format($tarifaFinal, 2));
         } catch (\Exception $e) {
             logger($e->getMessage());
-            return redirect('Alquilar')->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
+            return redirect('/')->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
         }
     }
 
@@ -279,31 +279,32 @@ class AlquilarController extends Controller
     }
 
     public function devolver($alquiler_id)
-    {
-        // Obtener el alquiler por su ID
-        $alquiler = Alquilar::findOrFail($alquiler_id);
+{
+    // Obtener el alquiler por su ID
+    $alquiler = Alquilar::findOrFail($alquiler_id);
 
-        // Verificar que el alquiler pertenece al usuario logueado
-        if ($alquiler->usuario_id !== session('usuario_id')) {
-            return redirect()->back()->with('error', 'No tienes permiso para devolver esta bicicleta.');
-        }
-
-        // Actualizar el estado del alquiler a 'completado'
-        $alquiler->estado = 'completado';
-        $alquiler->fecha_fin = now();  // Registrar la fecha de devolución
-        $alquiler->save();
-
-        // Obtener la bicicleta alquilada
-        $bicicleta = Bicicleta::find($alquiler->bicicleta_id);
-
-        if (!$bicicleta) {
-            return redirect()->back()->with('error', 'No se pudo encontrar la bicicleta asociada a este alquiler.');
-        }
-
-        // Cambiar el estado de la bicicleta a 'Libre'
-        $bicicleta->estado = 'Libre';
-        $bicicleta->save();
-
-        return redirect()->route('Alquilar.index')->with('success', 'Has devuelto la bicicleta con éxito.');
+    // Verificar que el alquiler pertenece al usuario logueado
+    if ($alquiler->usuario_id !== session('usuario_id')) {
+        return redirect()->back()->with('error', 'No tienes permiso para devolver esta bicicleta.');
     }
+
+    // Actualizar el estado del alquiler a 'completado'
+    $alquiler->estado = 'completado';
+    $alquiler->fecha_fin = now();  // Registrar la fecha de devolución
+    $alquiler->save();
+
+    // Obtener la bicicleta alquilada
+    $bicicleta = Bicicleta::find($alquiler->bicicleta_id);
+
+    if (!$bicicleta) {
+        return redirect()->back()->with('error', 'No se pudo encontrar la bicicleta asociada a este alquiler.');
+    }
+
+    // Cambiar el estado de la bicicleta a 'Libre'
+    $bicicleta->estado = 'Libre';
+    $bicicleta->save();
+
+    return redirect()->route('Alquilar.index')->with('success', 'Has devuelto la bicicleta con éxito.');
+}
+
 }

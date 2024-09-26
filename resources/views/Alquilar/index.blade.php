@@ -43,8 +43,8 @@
             @if ($alquilerActivo)
             <div class="alert alert-success d-flex flex-wrap" role="alert">
                 <div class="col-md-1">
-                    <i class="bi bi-bicycle fa-3x text-success"
-                        id="alquilerIcon"></i>
+                    <i class="bi bi-check-circle fa-3x text-success"
+                        id="checkIcon"></i>
                 </div>
 
                 <h4 class="text-dark col-md-11">Tienes una bicicleta alquilada:</h4>
@@ -56,8 +56,18 @@
                 <form action="{{ route('alquilar.devolver', $alquilerActivo->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Devolver Bicicleta</button>
+                    <button type="submit" class="btn btn-danger mx-4">Devolver Bicicleta</button>
                 </form>
+            </div>
+            @endif
+
+            @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @elseif (session('error'))
+            <div class="alert alert-error">
+                {{ session('error') }}
             </div>
             @endif
 

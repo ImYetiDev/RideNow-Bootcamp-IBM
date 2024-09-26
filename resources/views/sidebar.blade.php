@@ -17,7 +17,8 @@
     <nav class="navbar bg-secondary navbar-dark">
         <a href="/" class="navbar-brand mx-4 mb-3">
             <h3 class="text-success logo">
-            <img class="rounded-circle" src="{{ asset('img/untitled1.jpg')}}" alt="" style="width: 40px; height: 40px;">
+            <!-- <img class="rounded-circle" src="{{ asset('img/untitled1.jpg')}}" alt="" style="width: 40px; height: 40px;"> -->
+            <img src="{{URL::asset('img/logo.jpeg')}}"
 
             </i>RideNow</h3>
         </a>
