@@ -41,16 +41,16 @@
         <div class="container">
             <!-- Mostrar mensaje si el usuario ya tiene una bicicleta alquilada -->
             @if ($alquilerActivo)
-            <div class="alert alert-success d-flex-wrap" role="alert">
+            <div class="alert alert-success d-flex flex-wrap" role="alert">
                 <div class="col-md-1">
                     <i class="bi bi-bicycle fa-3x text-success"
                         id="alquilerIcon"></i>
                 </div>
 
-                <h4 class="text-dark">Tienes una bicicleta alquilada:</h4>
-                <p><strong>Marca:</strong> {{ $alquilerActivo->bicicleta->marca }}</p>
-                <p><strong>Color:</strong> {{ $alquilerActivo->bicicleta->color }}</p>
-                <p><strong>Fecha de inicio:</strong> {{ $alquilerActivo->fecha_inicio }}</p>
+                <h4 class="text-dark col-md-11">Tienes una bicicleta alquilada:</h4>
+                <p class="col-md-3"><strong>Marca:</strong> {{ $alquilerActivo->bicicleta->marca }}</p>
+                <p class="col-md-3"><strong>Color:</strong> {{ $alquilerActivo->bicicleta->color }}</p>
+                <p class="col-md-3"><strong>Fecha y hora de inicio:</strong> {{ $alquilerActivo->fecha_inicio }}</p>
 
                 <!-- Botón para devolver la bicicleta -->
                 <form action="{{ route('alquilar.devolver', $alquilerActivo->id) }}" method="POST">

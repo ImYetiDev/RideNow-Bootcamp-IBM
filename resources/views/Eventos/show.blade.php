@@ -34,10 +34,21 @@
                 <button type="submit" class="btn btn-primary">Inscribirse al Evento</button>
             </form>
         @endif
+
+        <!-- Mostrar botones de editar y eliminar solo si el usuario es administrador -->
+        @if (auth()->user() && auth()->user()->tipo_usuario == 3)
+            <hr>
+            <a href="{{ route('eventos.edit', $evento->id) }}" class="btn btn-warning">Editar Evento</a>
+
+            <!-- Botón para eliminar evento -->
+            <form action="{{ route('eventos.destroy', $evento->id) }}" method="POST" style="display:inline-block;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este evento?')">Eliminar Evento</button>
+            </form>
+        @endif
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-</html>
