@@ -1,71 +1,66 @@
-@section('title', 'RideNow')
+@section('title', 'RideNow - Inicio')
 @include('header')
 
 <body>
-    <div class="container-fluid position-relative d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
+    @include('sidebar')
+    @include('navbar')
+    @include('cards')
 
-        @include('sidebar')
-        @include('navbar')
+    <div class="container-fluid p-4">
+        <h1>Tu Actividad Actual</h1>
 
-        @include('cards')
+        <div class="row">
+            <!-- Mostrar tarjeta de la bicicleta alquilada si existe -->
+            @if (!empty($alquilerActivo))
+                <div class="col-md-6">
+                    <div class="card bg-secondary mb-4">
+                        <div class="card-header text-success">
+                            <h3>Bicicleta Alquilada</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Marca:</strong> {{ $alquilerActivo->bicicleta->marca }}</p>
+                            <p><strong>Color:</strong> {{ $alquilerActivo->bicicleta->color }}</p>
+                            <p><strong>Precio por hora:</strong> ${{ number_format($alquilerActivo->bicicleta->precio, 2) }}</p>
+                            <p><strong>Fecha de inicio:</strong> {{ $alquilerActivo->fecha_inicio }}</p>
+                            <p><strong>Estación de Inicio:</strong> {{ $alquilerActivo->estacion_inicio->nombre_estacion }}</p>
 
+                            <!-- Botón para devolver la bicicleta -->
+                            <form action="{{ route('alquilar.devolver', $alquilerActivo->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Devolver Bicicleta</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
-        @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @elseif (session('error'))
-        <div class="alert alert-error">
-            {{ session('error') }}
-        </div>
-        @endif
+            <!-- Mostrar tarjeta del evento inscrito si existe -->
+            @if (!empty($eventoParticipado))
+                <div class="col-md-6">
+                    <div class="card bg-secondary mb-4">
+                        <div class="card-header text-primary">
+                            <h3>Evento Inscrito</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Nombre del Evento:</strong> {{ $eventoParticipado->evento->nombre }}</p>
+                            <p><strong>Descripción:</strong> {{ $eventoParticipado->evento->descripcion }}</p>
+                            <p><strong>Fecha:</strong> {{ $eventoParticipado->evento->fecha }}</p>
+                            <p><strong>Ubicación:</strong> {{ $eventoParticipado->evento->ubicacion }}</p>
 
-        <div class="container-fluid position-relative d-block p-4">
-            @if(session('nombre'))
-            <h2>Bienvenido, {{ session('nombre') }}!</h2>
-            <!-- <p>Tipo de usuario, {{ session('tipo_usuario_string') }}!</p> -->
+                            <!-- Botón para cancelar la participación en el evento -->
+                            <form action="{{ route('eventos.cancelar', $eventoParticipado->evento->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-warning">Cancelar Participación</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             @endif
         </div>
-
-        <div class="container-fluid position-relative d-block p-4">
-
-            <!-- <img src="{{ asset('img/untitled1.jpg')}}" alt="" style="width: 400px; height: 400px;">
-            <img src="{{ asset('img/user.jpg')}}" alt="" style="width: 400px; height: 400px;"> -->
-
-
-
-        </div>
-
-        <footer class="footer fixed-bottom ml-4">
-            @include('footer')
-        </footer>
     </div>
 
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-success bg-success btn-lg-square back-to-top" style="z-index: 1050;"><i class="bi bi-arrow-up"></i></a>
-    </div>
-
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
 </body>
-
-</html>

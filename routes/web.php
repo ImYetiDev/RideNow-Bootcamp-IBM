@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BicicletasController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\ParticipacionController;
+use App\Http\Controllers\HomeController;
 
 
 /*
@@ -23,16 +24,20 @@ use App\Http\Controllers\ParticipacionController;
 Route::middleware(['auth'])->group(function () {
     Route::resource('Evento', EventoController::class);
     Route::resource('Reserva', ReservaController::class);
-    Route::resource('Residente', ResidenteController::class);
+    // Route::resource('Residente', ResidenteController::class);
     Route::resource('Usuario', UsuarioController::class);
     Route::resource('Alquilar', AlquilarController::class);
     // Route::resource('map', BicicletasController::class);
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
 
     Route::get('/eventos/{evento_id}', [EventoController::class, 'show'])->name('eventos.show');
     Route::post('/eventos/participar/{evento_id}', [EventoController::class, 'participar'])->name('eventos.participar');
     Route::get('/eventos/{evento_id}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
     Route::put('/eventos/{evento_id}', [EventoController::class, 'update'])->name('eventos.update');
     Route::delete('/eventos/{evento_id}', [EventoController::class, 'destroy'])->name('eventos.destroy');
+    Route::delete('/eventos/{evento_id}/cancelar', [EventoController::class, 'cancelarParticipacion'])->name('eventos.cancelar');
+
 
 
     Route::get('/alquilar/bicicleta/{bicicleta_id}', [AlquilarController::class, 'alquilarBicicleta'])->name('alquilar.bicicleta');

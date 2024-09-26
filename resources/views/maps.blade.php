@@ -50,12 +50,13 @@
             }).addTo(map);
 
             // Definir íconos personalizados
-            var bikeIcon = L.icon({
+            var bikeIcon1 = L.icon({
                 iconUrl: '/icons/bicycle.svg', // Coloca aquí la URL del ícono de bicicleta
                 iconSize: [32, 32], // Tamaño del icono
                 iconAnchor: [16, 32], // Punto de anclaje del ícono
                 popupAnchor: [0, -32] // Punto donde se mostrará el popup
             });
+
 
             var stationIcon = L.icon({
                 iconUrl: '/icons/house.svg', // Coloca aquí la URL del ícono de estación (hotel)
@@ -83,7 +84,7 @@
                 });
             }
 
-            function addMarkersToMap(locations, iconType) {
+            function addMarkersStatioToMap(locations, iconType) {
                 // Limpiar todos los marcadores anteriores
                 map.eachLayer(function(layer) {
                     if (layer instanceof L.Marker) {
@@ -129,7 +130,6 @@
             // Si quieres actualizar las ubicaciones en tiempo real, puedes hacer una llamada repetida con un intervalo
             setInterval(fetchBikeLocations, 30000); // Actualizar cada 30 segundos (puedes ajustar el intervalo según sea necesario)
             setInterval(fetchStationLocations, 30000); // Actualizar las estaciones cada 30 segundos
-        
         </script>
 
 

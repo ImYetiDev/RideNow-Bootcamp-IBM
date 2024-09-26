@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventoController extends Controller
 {
+    // Función para mostrar el listado de eventos
     public function index()
     {
         $eventos = Evento::all(); // Mostrar todos los eventos disponibles
@@ -38,27 +39,27 @@ class EventoController extends Controller
             'ubicacion' => $request->ubicacion,
             'organizador_id' => auth()->id(), // El usuario autenticado como organizador
         ]);
-        // return view('eventos');
+
         return redirect()->route('Evento.index')->with('success', 'Evento creado correctamente');
     }
 
-    // Mostrar los detalles del evento
     // Mostrar los detalles del evento
     public function show($evento_id)
     {
         // Obtener el evento por su ID
         $evento = Evento::findOrFail($evento_id);
 
-        // Pasar el evento a la vista
-        return view('eventos.show', compact('evento'));
+        // Verificar si el usuario está participando en el evento
+        $usuario_id = session('usuario_id');
+        $participacion = Participacion::where('evento_id', $evento_id)->where('usuario_id', $usuario_id)->first();
+
+        // Pasar el evento y la participación a la vista
+        return view('eventos.show', compact('evento', 'participacion'));
     }
 
-
-
-    // Guardar la inscripción al evento
+    // Función para participar en el evento
     public function participar($evento_id)
     {
-        // Obtener el ID del usuario desde la sesión
         $usuario_id = session('usuario_id');
 
         // Verificar si ya está inscrito
@@ -77,21 +78,26 @@ class EventoController extends Controller
         }
     }
 
+    // Función para cancelar la participación en el evento
+    public function cancelarParticipacion($evento_id)
+    {
+        $usuario_id = session('usuario_id');
+
+        // Eliminar la participación
+        Participacion::where('evento_id', $evento_id)->where('usuario_id', $usuario_id)->delete();
+
+        return redirect()->route('eventos.show', $evento_id)->with('success', 'Has cancelado tu participación en el evento.');
+    }
 
     // Mostrar el formulario para editar el evento
     public function edit($evento_id)
     {
-        // Obtener el evento por su ID
         $evento = Evento::findOrFail($evento_id);
-
-        // Retornar la vista para editar el evento
         return view('eventos.edit', compact('evento'));
     }
 
-    // Actualizar los datos del evento
     public function update(Request $request, $evento_id)
     {
-        // Validar los datos ingresados
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -99,7 +105,6 @@ class EventoController extends Controller
             'ubicacion' => 'required|string|max:255',
         ]);
 
-        // Obtener el evento y actualizar los campos
         $evento = Evento::findOrFail($evento_id);
         $evento->update([
             'nombre' => $request->nombre,
@@ -108,19 +113,14 @@ class EventoController extends Controller
             'ubicacion' => $request->ubicacion,
         ]);
 
-        // Redirigir a la página de detalles del evento
         return redirect()->route('eventos.show', $evento->id)->with('warning', 'Evento actualizado correctamente.');
     }
 
-    // Eliminar un evento
     public function destroy($evento_id)
     {
-        // Obtener el evento y eliminarlo
         $evento = Evento::findOrFail($evento_id);
         $evento->delete();
 
-        // Redirigir a la lista de eventos (o cualquier otra página)
-        return redirect('/')
-                ->with('danger', 'Evento eliminado con éxito.');
+        return redirect('/')->with('danger', 'Evento eliminado con éxito.');
     }
 }
