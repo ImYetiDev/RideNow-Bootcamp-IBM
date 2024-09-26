@@ -198,13 +198,13 @@ class AlquilarController extends Controller
             $bicicleta->save();
 
             // Retornar con el mensaje de éxito mostrando el desglose de la tarifa y el descuento
-            return redirect('/')->with('success', '¡Alquiler completado con éxito! 
+            return redirect('Alquilar')->with('success', '¡Alquiler completado con éxito! 
                  Tarifa original: $' . number_format($tarifa, 2) .
                 '. Descuento aplicado: $' . number_format($montoDescuento, 2) .
                 '. Total a pagar: $' . number_format($tarifaFinal, 2));
         } catch (\Exception $e) {
             logger($e->getMessage());
-            return redirect('/')->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
+            return redirect('Alquilar')->with('error', 'Error al completar el alquiler. Inténtalo de nuevo.');
         }
     }
 
@@ -293,8 +293,14 @@ class AlquilarController extends Controller
         $alquiler->fecha_fin = now();  // Registrar la fecha de devolución
         $alquiler->save();
 
-        // Cambiar el estado de la bicicleta a 'Libre'
+        // Obtener la bicicleta alquilada
         $bicicleta = Bicicleta::find($alquiler->bicicleta_id);
+
+        if (!$bicicleta) {
+            return redirect()->back()->with('error', 'No se pudo encontrar la bicicleta asociada a este alquiler.');
+        }
+
+        // Cambiar el estado de la bicicleta a 'Libre'
         $bicicleta->estado = 'Libre';
         $bicicleta->save();
 

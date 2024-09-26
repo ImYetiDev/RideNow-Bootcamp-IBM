@@ -87,7 +87,7 @@
             // Función para agregar marcadores de estaciones al mapa (se ejecuta solo una vez)
             function addStationMarkersToMap(stationLocations) {
                 stationLocations.forEach(function(location) {
-                    var marker = L.marker([location.latitud, location.longitud], { icon: stationIcon }).addTo(map);
+                    var marker = L.marker([location.latitud, location.longitud]).addTo(map);
                     marker.bindPopup("Nombre estación: " + location.nombre_estacion);
                 });
             }
