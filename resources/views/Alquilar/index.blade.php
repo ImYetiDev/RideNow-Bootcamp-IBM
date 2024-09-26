@@ -48,7 +48,7 @@
                 <p><strong>Fecha de inicio:</strong> {{ $alquilerActivo->fecha_inicio }}</p>
 
                 <!-- Botón para devolver la bicicleta -->
-                <form action="{{ route('alquilar.devolver', $alquilerActivo->id) }}" method="POST">
+                <form action="{{ route('alquilar.devolverBicicleta', $alquilerActivo->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Devolver Bicicleta</button>
