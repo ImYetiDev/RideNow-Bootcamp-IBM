@@ -115,7 +115,7 @@ class BicicletasController extends Controller
     public function ubicaciones()
     {
         // Suponemos que la tabla 'bicicletas' tiene columnas 'latitude' y 'longitude'
-        $estaciones = Estacion::all(['nombre_estacion', 'direccion', 'latitude', 'longitude']);
+        $estaciones = Estacion::all(['nombre_estacion', 'direccion', 'latitud', 'longitud']);
 
         return response()->json($estaciones);
     }
@@ -123,7 +123,7 @@ class BicicletasController extends Controller
     public function getBikeLocations()
     {
         // Supongamos que tienes un modelo "Bicicleta" con latitud y longitud almacenados
-        $bicicletas = Bicicleta::select('id', 'latitude', 'longitude')->get();
+        $bicicletas = Bicicleta::select('id', 'latitud', 'longitud')->get();
         return response()->json($bicicletas);
     }
 

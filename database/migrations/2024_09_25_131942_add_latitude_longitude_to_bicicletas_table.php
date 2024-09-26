@@ -9,8 +9,8 @@ class AddLatitudeLongitudeToBicicletasTable extends Migration
     public function up()
     {
         Schema::table('bicicletas', function (Blueprint $table) {
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
+            $table->decimal('latitud', 10, 8)->nullable();
+            $table->decimal('longitud', 11, 8)->nullable();
         });
     }
 
