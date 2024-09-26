@@ -83,6 +83,24 @@
                 });
             }
 
+            function addMarkersToMap(locations, iconType) {
+                // Limpiar todos los marcadores anteriores
+                map.eachLayer(function(layer) {
+                    if (layer instanceof L.Marker) {
+                        map.removeLayer(layer);
+                    }
+                });
+
+                // Agregar cada ubicación como un marcador en el mapa
+                locations.forEach(function(location) {
+                    var marker = L.marker([location.latitude, location.longitude], {
+                        icon: iconType
+                    }).addTo(map);
+                    var popupContent = iconType === bikeIcon ? "Bicicleta ID: " + location.id : "Nombre estación: " + location.nombre_estacion;
+                    marker.bindPopup(popupContent); // Mostrar el ID de la bicicleta o nombre de la estación
+                });
+            }
+
             // Función para obtener ubicaciones de las bicicletas desde la base de datos
             function fetchBikeLocations() {
                 fetch('/bicicletas') // Endpoint en tu servidor que devuelva las ubicaciones de las bicicletas en JSON
@@ -99,8 +117,7 @@
                 fetch('/estaciones') // Endpoint en tu servidor que devuelva las ubicaciones de las estaciones en JSON
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Datos de las estaciones:', data); // Verifica la respuesta aquí
-                        // Llamar a la función para agregar marcadores usando los datos recibidos
+                        // Llamar a la función para agregar marcadores de estaciones
                         addMarkersToMap(data, stationIcon);
                     })
                     .catch(error => console.error('Error al obtener las ubicaciones de estaciones:', error));
@@ -112,6 +129,7 @@
             // Si quieres actualizar las ubicaciones en tiempo real, puedes hacer una llamada repetida con un intervalo
             setInterval(fetchBikeLocations, 30000); // Actualizar cada 30 segundos (puedes ajustar el intervalo según sea necesario)
             setInterval(fetchStationLocations, 30000); // Actualizar las estaciones cada 30 segundos
+        
         </script>
 
 

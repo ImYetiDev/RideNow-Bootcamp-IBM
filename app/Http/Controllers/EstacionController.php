@@ -78,7 +78,7 @@ class EstacionController extends Controller
     public function getStationLocations()
     {
         // Supongamos que tienes un modelo "Bicicleta" con latitud y longitud almacenados
-        $estaciones = Estacion::select('nombre_estacion', 'longitud', 'latitud')->get();
+        $estaciones = Estacion::select('nombre_estacion', 'latitud', 'longitud')->get();
         return response()->json($estaciones);
     }
 }

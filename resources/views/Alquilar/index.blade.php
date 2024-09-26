@@ -41,27 +41,34 @@
         <div class="container">
             <!-- Mostrar mensaje si el usuario ya tiene una bicicleta alquilada -->
             @if ($alquilerActivo)
-                <div class="alert alert-warning">
-                    <h4>No puedes alquilar una bicicleta porque ya tienes una alquilada.</h4>
-                    <p><strong>Bicicleta Alquilada:</strong></p>
-                    <p><strong>Marca:</strong> {{ $alquilerActivo->bicicleta->marca }}</p>
-                    <p><strong>Color:</strong> {{ $alquilerActivo->bicicleta->color }}</p>
-                </div>
+            <div class="alert alert-info">
+                <h4>Tienes una bicicleta alquilada:</h4>
+                <p><strong>Marca:</strong> {{ $alquilerActivo->bicicleta->marca }}</p>
+                <p><strong>Color:</strong> {{ $alquilerActivo->bicicleta->color }}</p>
+                <p><strong>Fecha de inicio:</strong> {{ $alquilerActivo->fecha_inicio }}</p>
+
+                <!-- Botón para devolver la bicicleta -->
+                <form action="{{ route('alquilar.devolver', $alquilerActivo->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Devolver Bicicleta</button>
+                </form>
+            </div>
             @endif
 
             <!-- Mostrar las regionales disponibles -->
             <div class="row">
                 @foreach($Regionales as $dato)
-                    <div class="col-md-4 mb-4">
-                        <div class="card bg-secondary">
-                            <div class="card-header">
-                                <h3 class="text-success">{{ $dato->nombre }}</h3>
-                            </div>
-                            <div class="card-body">
-                                <a href="{{ route('alquilar.show', $dato->id) }}" class="text-success">Ver bicicletas</a>
-                            </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-secondary">
+                        <div class="card-header">
+                            <h3 class="text-success">{{ $dato->nombre }}</h3>
+                        </div>
+                        <div class="card-body">
+                            <a href="{{ route('alquilar.show', $dato->id) }}" class="text-success">Ver bicicletas</a>
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>
